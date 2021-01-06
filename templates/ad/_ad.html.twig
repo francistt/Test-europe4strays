@@ -1,0 +1,34 @@
+{%  set url = path('ads_show', {'slug': ad.slug}) %}
+
+    <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header text-center">
+              <h3>{{ ad.name }}</h3>
+              <h6>{{ ad.age }} ans</h6>
+                {% set genre = ad.sexe > 1? "femelle" : "mâle" %}
+                {% if ad.size == 0 %}{{ ad.type }} {{ genre }} de petite taille{% endif %}
+                {% if ad.size == 1 %}{{ ad.type }} {{ genre }} de taille moyenne{% endif %}
+                {% if ad.size == 3 %}{{ ad.type }} {{ genre }} de grande taille{% endif %}
+                <br/><small>{{ ad.city }}</small>
+            </div>
+
+            <a href="{{ url }}">
+                <img src="{{ ad.coverImage }}" alt="Image de l'animal" style="height: 200px; width: 100%; display: block">
+            </a>
+            <div class="card-body">
+                <h4 class="card-title">
+                    <a href="{{ url }}">
+                        {{ ad.type }}
+                    </a>
+                </h4>
+                <p class="card-text">
+                    {{ ad.introduction }}
+                </p>
+
+                {% if app.user and app.user == ad.author %}
+                    <a href="{{ path('ads_edit', {'slug': ad.slug}) }}" class="btn btn-warning">Modifier l'annonce</a>
+                {% else %}<a href="{{ url }}" class="btn btn-secondary">En savoir plus</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>

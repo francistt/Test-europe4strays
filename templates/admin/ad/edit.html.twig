@@ -1,0 +1,97 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modification de l'annonce numéro {{ad.id}}{% endblock %}
+
+{% form_theme form _self %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-5">Modification de l'annonce de {{ad.name}}</h1>
+
+    {{ form_start(form) }}
+
+    <div class="row">
+        <div class="col">
+            <div class="card bg-light">
+                <div class="card-header">
+                    <h4 class="card-title">Informations générales</h4>
+                </div>
+                <div class="alert alert-light">
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.type) }}
+                    {{ form_row(form.age) }}
+                    {{ form_row(form.sexe) }}
+                    {{ form_row(form.size) }}
+                    {{ form_row(form.city) }}
+                </div>
+            </div>
+
+            <div class="card bg-light mt-3">
+                    <div class="card-header">
+                        <h4 class="card-title">Détails de l'annonce</h4>
+                    </div>
+                    <div class="alert alert-light">
+                        {{ form_row(form.introduction) }}
+                        {{ form_row(form.content) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card bg-light">
+                    <div class="card-header">
+                        <h4 class="card-title">Images de l'annonce</h4>
+                    </div>
+                    <div class="alert alert-light">
+                       
+                            <img src="{{ad.coverImage}}" class="img-fluid" alt="">
+                       
+                            {{ form_row(form.coverImage) }}
+
+                        {% for item in form.images %}
+                            <div class="d-flex block-image mb-3">
+
+                                <div class="col-4">
+                                    {{ form_widget(item.url) }}
+                                </div>
+                                <div class="col-6">
+                                    {{ form_widget(item.caption) }}
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-danger" data-action="delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+                <div class="alert alert-success mt-3"> 
+                    <button type="submit" class="btn btn-success btn-block">
+                        <i class="fas fa-check"></i>
+                        Enregistrer les modifications
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+</div>
+{% endblock %}
+
+
+
+
+
+{% block javascripts %}
+
+    <script>
+        $(document).ready(function() {
+            $('[data-action="delete"]').on('click', function() {
+                $(this).closest('.block-image').remove();
+            });
+        });
+    </script>
+
+{% endblock %}

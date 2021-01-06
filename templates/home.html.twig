@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Bienvenue
+{% endblock %}
+
+{% block content %} 
+{% for welcomePage in welcomePages %}
+    
+
+    <div class="jumbotron mt-3">
+        <div class="home-title" style="background-image: url('uploads/{{ welcomePage.illustration }}');">
+            <h1 class="display-4" id="mainTitle">{{ welcomePage.title }}</h1>
+            <h2><p class="lead mb-4">{{ welcomePage.content }}</p></h2>
+            <p>Vous êtes dans l'attente d'un compagon ?</p>
+            <p class="lead">
+                <a class="btn btn-primary btn-lg" href="{{ path('ads_index') }}" role="button">{{ welcomePage.btnTitle }}</a>
+            </p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">{{ welcomePage.newsTitleOne }}</h2>
+                <p class="lead">{{ welcomePage.newsContentOne }}</p>
+            </div>
+            <div class="col-md-5">
+                <img src="/uploads/{{ welcomePage.newsIllustrationOne }}" class="img-fluid" alt="News 1">
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row featurette">
+            <div class="col-md-7 order-md-2">
+                <h2 class="featurette-heading">{{ welcomePage.newsTitleTwo }}</h2>
+                <p class="lead">{{ welcomePage.newsContentTwo }}</p>
+            </div>
+            <div class="col-md-5 order-md-1">
+                <img src="/uploads/{{ welcomePage.newsIllustrationTwo }}" class="img-fluid" alt="News 2">
+            </div>
+        </div>
+{% endfor %}
+        <hr>
+
+        <h2 class="h1 my-5">Nos derniers arrivants</h2>
+
+        <div class="row">
+            {% for data in ads %}
+                {% include 'ad/_ad.html.twig' with {'ad' : data.annonce} %}
+            {% endfor %}
+        </div> 
+    </div>
+{% endblock %}
