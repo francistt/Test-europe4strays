@@ -59,13 +59,15 @@
                 <h3>Famille d'accueil</h3>
                 <hr>
                 <div class="row">
-                    <div class="col-4 mt-3">
-                        <div>
-                            <a href="{{ path('user_show', {'slug': a.slug}) }}">
-                                <img src="{{ asset('/uploads/' ~ a.picture) }}" class="avatar avatar-medium" alt="Avatar de {{a.fullName}}">       
-                            </a>
+                    {% if a.picture != null %}
+                        <div class="col-4 mt-3">
+                            <div>
+                                <a href="{{ path('user_show', {'slug': a.slug}) }}">
+                                    <img src="{{ asset('/uploads/' ~ a.picture) }}" class="avatar avatar-medium" alt="Avatar de {{a.fullName}}">       
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                     <div class="col mt-3">
                         <div>
                             <a href="{{ path('user_show', {'slug': a.slug}) }}">

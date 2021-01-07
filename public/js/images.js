@@ -1,4 +1,25 @@
 window.onload = () => {
+
+    $('.file-select-button').click(function(){
+        $(this).closest('.upload-image-strip').find('input').click();
+    });
+    
+    $('.upload-image-strip input').on('change', function (e) {
+        let filename = e.target.value.split('\\').pop();
+        let nf = $(this).closest('.upload-image-strip').find('.name-file');
+    
+        if (filename.length > 12) {
+            let extension = filename.split('.').pop();
+            let truncate = filename.substr(0, 12) + '... .' + extension;
+    
+            nf.text(truncate);
+        } else if(filename.length > 0) {
+            nf.text(filename);
+        }
+    });
+
+
+
     // Gestion du bouton "supprimer"
     let links = document.querySelector("[data-delete]")
    
@@ -23,10 +44,12 @@ window.onload = () => {
                 response => response.json()
             ).then(data => {
                 if(data.success)
-                    this.parentElement.remove()
+                    $(this).closest('div').remove();
                 else
                     alert(data.error)
             }).catch(e => alert(e))
          }
-    })
+    });
+
+    
 }

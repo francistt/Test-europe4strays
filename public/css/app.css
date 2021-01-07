@@ -58,8 +58,8 @@ div.carousel-caption {
 }
 
 .avatar-mini {
-    max-width: 24px;
-    max-height: 24px;
+    max-width: 34px;
+    max-height: 34px;
     border-radius: 50%;
 }
 
@@ -97,4 +97,22 @@ span.rating i {
         max-height: 64px;
         border-radius: 50%;
     }
+}
+
+.upload-image-strip .file-select-button {
+    height: 51px;
+    min-width: 169px;
+    margin-top: 5px;
+}
+
+.upload-image-strip input[type='file'] {
+    position: absolute;
+    margin-top: 3px;
+    margin-left: 3px;
+    height: 1px;
+    width: 1px;
+    z-index: -5;
+}
+.custom-file label {
+    display:none;
 }

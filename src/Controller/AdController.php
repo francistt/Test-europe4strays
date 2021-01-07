@@ -46,23 +46,45 @@ class AdController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
 
 
+             // On récupère l'image transmise
+             $picture = $form->get('coverImage')->getData();
+             // On génère un nom de fichier
+             $fichier = md5(uniqid()) . '.' . $picture->guessExtension();
+             // On copie le fichier dans le dossier uploads
+             $picture->move(
+                 $this->getParameter('images_directory'),
+                 $fichier
+             );
+             // On stocke le nom de l'image dans la BDD
+                 $ad->setCoverImage($fichier);
+
+
+
+
+
+
+
             // On récupère l'image transmise
-            $images = $form->get('images2')->getData();
+            //$images = $form->get('images2')->getData();
 
             // On boucle sur les images
-            foreach($images as $image){
+            //foreach($images as $image){
                 // On génère un nom de fichier
-                $fichier = md5(uniqid()) . '.' . $image->guessExtension();             
-            }
+            //    $fichier = md5(uniqid()) . '.' . $image->guessExtension();             
+            //}
             // On copie le fichier dans le dossier uploads
-            $image->move(
-                $this->getParameter('images_directory'),
-                $fichier
-            );
+            //$image->move(
+            //    $this->getParameter('images_directory'),
+            //    $fichier
+            //);
             // On stocke le nom de l'image dans la BDD
-                $img = new Images();
-                $img->setName($fichier);
-                $ad->addImages2($img);
+            //    $img = new Images();
+            //    $img->setName($fichier);
+            //    $ad->addImages2($img);
+
+
+
+
 
 
 
@@ -107,6 +129,23 @@ class AdController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
+
+            // On récupère l'image transmise
+            $picture = $form->get('coverImage')->getData();
+            // On génère un nom de fichier
+            $fichier = md5(uniqid()) . '.' . $picture->guessExtension();
+            // On copie le fichier dans le dossier uploads
+            $picture->move(
+                $this->getParameter('images_directory'),
+                $fichier
+            );
+            // On stocke le nom de l'image dans la BDD
+                $ad->setCoverImage($fichier);
+
+
+
+
             foreach($ad->getImages() as $image) {
                 $image->setAd($ad);
                 $manager->persist($image);

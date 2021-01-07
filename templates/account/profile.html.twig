@@ -17,13 +17,21 @@
                     {{ form_row(form.lastName) }}
                     {{ form_row(form.email) }}
                    
-                    <div>
-                        <img src="{{ asset('/uploads/' ~ user.picture) }}" alt="Image" width="100">
-                        <a href="{{ path('user_delete_image', {'id': user.id}) }}"
-                        data-delete data-token="{{ csrf_token('delete' ~ user.id) }}"> <i class="fas fa-trash fa-2x"></i></a>
-                    </div>
+                   {% if user.picture != null %}
+                        <div>
+                            <img src="{{ asset('/uploads/' ~ user.picture) }}" alt="Image" width="100">
+                            <a href="{{ path('user_delete_image', {'id': user.id}) }}"
+                            data-delete data-token="{{ csrf_token('delete' ~ user.id) }}"><i class="fas fa-trash fa-2x"></i></a>
+                        </div>
+                    {% endif %}
                  
-                    {{ form_row(form.picture) }}
+                    <div class="upload-image-strip">
+                        <button type="button" class="file-select-button btn btn-info">
+                                <i class="fas fa-upload"></i>
+                                <span class="name-file">  Télécharger une nouvelle image </span>
+                        </button>
+                        {{ form_widget(form.picture, {'label': ' '}) }} 
+                    </div>
                 </div>
             </div>
             <div class="col">

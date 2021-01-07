@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Service\Mail;
-use App\Form\AccountType;
+use App\Form\UserType;
 use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
 use App\Form\PasswordUpdateType;
@@ -78,9 +78,6 @@ class AccountController extends AbstractController
             // On stocke le nom de l'image dans la BDD
                 $user->setPicture($fichier);
             
-
-
-
             $manager->persist($user);
             $manager->flush();
 
@@ -112,25 +109,26 @@ class AccountController extends AbstractController
     public function profile(Request $request, EntityManagerInterface $manager) {
         $user = $this->getUser();
 
-        $form = $this->createForm(AccountType::class, $user);
+        $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
 
-
         // On récupère l'image transmise
         $picture = $form->get('picture')->getData();
-        // On génère un nom de fichier
-        $fichier = md5(uniqid()) . '.' . $picture->guessExtension();
-        // On copie le fichier dans le dossier uploads
-        $picture->move(
-            $this->getParameter('images_directory'),
-            $fichier
-        );
-        // On stocke le nom de l'image dans la BDD
-            $user->setPicture($fichier);
 
+        if($picture){
+            // On génère un nom de fichier
+            $fichier = md5(uniqid()) . '.' . $picture->guessExtension();
+            // On copie le fichier dans le dossier uploads
+            $picture->move(
+                $this->getParameter('images_directory'),
+                $fichier
+            );
+            // On stocke le nom de l'image dans la BDD
+                $user->setPicture($fichier);
+        }
      
         $manager->persist($user);
         $manager->flush();
@@ -191,7 +189,7 @@ class AccountController extends AbstractController
     }
 
     /**
-     * Permet d'afficher le profil de l'utilissateur connecté
+     * Permet d'afficher le profil de l'utilisateur connecté
      *
      * @Route("/account", name="account_index")
      * @IsGranted("ROLE_USER")
@@ -206,7 +204,7 @@ class AccountController extends AbstractController
 
     /**
      * Permet d'effacer l'image de profil
-     * @Route("/supprime/image/{id}", name="user_delete_image", methods={"DELETE"})
+     * @Route("/supprime/image/{id}", name="user_delete_image", methods={"DELETE", "GET"})
      * 
      */
     public function deletePicture(User $user, Request $request)
@@ -218,15 +216,15 @@ class AccountController extends AbstractController
             // On vérifie le nom de l'image
             $nom = $user->getPicture();
             // On supprime le fichier
-            unlink(($this->getParameter('image_directory').'/'.$nom));
+            unlink($this->getParameter('images_directory').'/'.$nom);
 
             // On supprime l'entrée de la BDD
+            $user->setPicture(null);
             $em = $this->getDoctrine()->getManager();
-            $em->remove($user);
             $em->flush();
 
             // On répond en json
-            return new JsonResponse(['succes' => 1]);       
+            return new JsonResponse(['success' => 1]);       
         }else{
             return new JsonResponse(['error' => 'Token Invalide'], 400);
         }

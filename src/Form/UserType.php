@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class AccountType extends AbstractType
+class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -37,6 +37,7 @@ class AccountType extends AbstractType
             ->add('picture',  FileType::class, [
                 'label' => "Photo de profil",
                 'mapped' => false,
+                'required' => false,
             ])
             ->add('introduction', TextType::class, [
                 'label' => "Introduction",

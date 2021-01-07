@@ -23,9 +23,11 @@
         </div>
 
         {{user.description | raw}}
-        <a href="mailto:{{user.email}}" class="btn btn-info">Email : {{user.email}}</a>
+        <br/>
+        <br/>
+        <a href="mailto:{{user.email}}" class="btn btn-outline-primary btn-sm">Email : {{user.email}}</a>
         {% if user.phone != null %}
-            <a href="tel:{{user.phone}}" class="btn btn-info">Téléphone : {{user.phone}}</a>
+            <a href="tel:{{user.phone}}" class="btn btn-outline-primary btn-sm">Téléphone : {{user.phone}}</a>
         {% endif %}
         <hr>
 

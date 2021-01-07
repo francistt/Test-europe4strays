@@ -43,7 +43,16 @@
                         <h3 class="card-title">Images de l'annonce</h3>
                     </div>
                     <div class="alert alert-light">
-                        {{ form_row(form.coverImage) }}
+
+
+                        <div class="upload-image-strip">
+                            <button type="button" class="file-select-button btn btn-info">
+                                    <i class="fas fa-upload"></i>
+                                    <span class="name-file"> Télécharger l'image principale</span>
+                            </button>
+                            {{ form_row(form.coverImage, {'label': ' '}) }}
+                        </div>
+
                         {{ form_row(form.images) }}
                         {{ form_row(form.images2) }}
                     </div>
@@ -64,5 +73,6 @@
 {% block javascripts %}
 
 <script src="/js/ad.js"></script>
+<script src="{{ asset('js/images.js') }}"></script>
 
 {% endblock %}

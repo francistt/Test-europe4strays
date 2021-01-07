@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Page 2
+{% endblock %}
+
+{% block content %}
+	{% for page2 in page2 %}
+		<div class="container">
+			<div class="jumbotron mt-3">
+				<div class="row featurette">
+					<div class="col">
+						<h1>{{ page2.title }}</h1>
+						{{ page2.content | raw }}
+						{% if page2.btnTitle != null %}
+							<a class="btn btn-primary btn-lg mt-3" href="{{ page2.btnUrl }}" role="button">{{ page2.btnTitle }}</a>
+						{% endif %}
+					</div>
+					{% if page2.illustration != null %}
+						<div class="col-md-5">
+							<img src="uploads/{{ page2.illustration }}" class="img-fluid" alt="image2">
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+{% endblock %}

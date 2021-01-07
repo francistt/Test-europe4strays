@@ -16,7 +16,15 @@
                         {{ form_row(form.firstName) }}
                         {{ form_row(form.lastName) }}
                         {{ form_row(form.email) }}
-                        {{ form_row(form.picture) }}
+                       
+                        <div class="upload-image-strip">
+                            <button type="button" class="file-select-button btn btn-info">
+                                    <i class="fas fa-upload"></i>
+                                    <span class="name-file"> Télécharger votre image de profil</span>
+                            </button>
+                            {{ form_row(form.picture, {'label': ' '}) }}
+                        </div>
+                        
                     </div>
                     <div class="alert alert-light">
                         <h2 class="alert-heading">Mot de passe</h2>
@@ -43,4 +51,8 @@
             </div>
         {{ form_end(form) }}
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/images.js') }}"></script>
 {% endblock %}

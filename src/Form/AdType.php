@@ -72,11 +72,10 @@ class AdType extends AbstractType
                     'placeholder' => "Décrivez le en détail"
                 ]
             ])
-            ->add('coverImage', UrlType::class, [
-                'label' => "URL de l'image principale :",
-                'attr' => [
-                    'placeholder' => "Donnez l'adresse d'une image"
-                ]
+            ->add('coverImage',  FileType::class, [
+                'label' => "Image principale",
+                'mapped' => false,
+                'required' => false,
             ])
             ->add('images', CollectionType::class, [
                 'entry_type' => ImageType::class,
