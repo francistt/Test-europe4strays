@@ -6,7 +6,7 @@
 
 {% block content %}
 
-<div class="ad-title" style="background-image: url({{ ad.coverImage }})">
+<div class="ad-title" style="background-image: url({{ asset('/uploads/' ~ ad.coverImage) }})">
     <div class="container">
         <h1>{{ad.name}}</h1>
         <p class="h3">
@@ -14,7 +14,7 @@
         </p>
         <a href="{{ path('contact') }}" class="btn btn-primary">Nous contacter</a>
         {% if app.user and app.user == ad.author %}
-        <a href="{{ path('ads_edit', {'slug': ad.slug}) }}" class="btn btn-secondary">Modifier l'annonce</a>
+        <a href="{{ path('ads_edit', {'slug': ad.slug}) }}" class="btn btn-secondary">Modifier mon annonce</a>
         
         <a href="{{ path('ads_delete', {'slug': ad.slug}) }}" class="btn btn-danger" onclick="return confirm(`Êtes vous sur de vouloir supprimer l'annonce : {{ad.name}}, {{ad.age}} ans ?`)">Supprimer l'annonce</a>
         {% endif %}

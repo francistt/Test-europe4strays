@@ -20,26 +20,31 @@ class AdCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextField::new('name'),
+            ImageField::new('coverImage', 'Image principale')
+                ->setBasePath('uploads/')
+                ->setUploadDir('public/uploads')
+                ->setUploadedFileNamePattern('[randomhash].[extension]')
+                ->setRequired(false),
+            TextField::new('name', 'Nom'),
             TextField::new('type'),
             NumberField::new('age'),
             ChoiceField::new('sexe')->setChoices([
                 'Male' => 0,
                 'Femelle' => 1
             ]),
-            ChoiceField::new('size')->setChoices([
+            ChoiceField::new('size', 'Taille')->setChoices([
                 'Petit' => 0,
                 'Moyen' => 1,
                 'Grand' => 2
             ]),
-            TextField::new('city'),
+            TextField::new('city', 'Ville'),
             TextField::new('introduction'),
-            TextEditorField::new('content'),
-            ImageField::new('images')
-                ->setBasePath('uploads/')
-                ->setUploadDir('public/uploads')
-                ->setUploadedFileNamePattern('[randomhash].[extension]')
-                ->setRequired(false),
+            TextEditorField::new('content', 'Contenu'),
+            //ImageField::new('images')
+            //    ->setBasePath('uploads/')
+            //    ->setUploadDir('public/uploads')
+            //    ->setUploadedFileNamePattern('[randomhash].[extension]')
+            //    ->setRequired(false),
         ];
     }
 }

@@ -43,9 +43,20 @@
                     </div>
                     <div class="alert alert-light">
                        
-                            <img src="{{ad.coverImage}}" class="img-fluid" alt="">
+                        <div>
+                            <img src="{{ asset('/uploads/' ~ ad.coverImage) }}" alt="CoverImage" width="300">
+                        </div>
                        
-                            {{ form_row(form.coverImage) }}
+                        <div class="upload-image-strip">
+                            <button type="button" class="file-select-button btn btn-info">
+                                <i class="fas fa-edit"></i>
+                                <span class="name-file"> Modifier l'image principale</span>
+                            </button>
+                            {{ form_row(form.coverImage, {'label': ' '}) }}
+                        </div>
+
+
+                   
 
                         {% for item in form.images %}
                             <div class="d-flex block-image mb-3">
@@ -93,5 +104,5 @@
             });
         });
     </script>
-
+    <script src="{{ asset('js/images.js') }}"></script>
 {% endblock %}

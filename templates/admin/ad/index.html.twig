@@ -62,7 +62,9 @@
                 <td>{{ad.name}}</td>
                 <td>{{ad.type}}</td>
                 <td>
-                    <img src="{{ad.author.picture}}" alt="Avatar de {{ad.author.fullname}}" class="avatar avatar-medium mr-2">
+                    {% if ad.author.picture != null %}            
+                        <img src="{{ asset('/uploads/' ~ ad.author.picture) }}" alt="Avatar de {{ad.author.fullname}}" class="avatar avatar-medium mr-2">
+                    {% endif %}
                     {{ad.author.fullName}}
                 </td>
                 <td>

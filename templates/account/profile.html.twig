@@ -27,8 +27,8 @@
                  
                     <div class="upload-image-strip">
                         <button type="button" class="file-select-button btn btn-info">
-                                <i class="fas fa-upload"></i>
-                                <span class="name-file">  Télécharger une nouvelle image </span>
+                            <i class="fas fa-upload"></i>
+                            <span class="name-file">  Télécharger une nouvelle image </span>
                         </button>
                         {{ form_widget(form.picture, {'label': ' '}) }} 
                     </div>
@@ -40,10 +40,9 @@
                     <hr>
                     {{ form_row(form.introduction) }}
                     {{ form_row(form.description) }}
-
-                    <hr>
-                    <p>Si vous avez terminé vos modifications, vous pouvez les sauvegarder</p>
-                    <button type="submit" class="btn btn-primary">
+                </div>
+                <div class="alert alert-primary mt-3"> 
+                    <button type="submit" class="btn btn-primary btn-block">
                         <i class="fas fa-check"></i>
                         Enregistrer les modifications
                     </button>

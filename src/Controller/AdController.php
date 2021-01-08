@@ -60,10 +60,6 @@ class AdController extends AbstractController
 
 
 
-
-
-
-
             // On récupère l'image transmise
             //$images = $form->get('images2')->getData();
 
@@ -81,12 +77,6 @@ class AdController extends AbstractController
             //    $img = new Images();
             //    $img->setName($fichier);
             //    $ad->addImages2($img);
-
-
-
-
-
-
 
 
             foreach($ad->getImages() as $image) {
@@ -130,19 +120,21 @@ class AdController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
 
-
+            
             // On récupère l'image transmise
             $picture = $form->get('coverImage')->getData();
-            // On génère un nom de fichier
-            $fichier = md5(uniqid()) . '.' . $picture->guessExtension();
-            // On copie le fichier dans le dossier uploads
-            $picture->move(
-                $this->getParameter('images_directory'),
-                $fichier
-            );
-            // On stocke le nom de l'image dans la BDD
-                $ad->setCoverImage($fichier);
 
+            if($picture){
+                // On génère un nom de fichier
+                $fichier = md5(uniqid()) . '.' . $picture->guessExtension();
+                // On copie le fichier dans le dossier uploads
+                $picture->move(
+                    $this->getParameter('images_directory'),
+                    $fichier
+                );
+                // On stocke le nom de l'image dans la BDD
+                    $ad->setCoverImage($fichier);
+            }
 
 
 

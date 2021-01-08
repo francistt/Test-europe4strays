@@ -56,7 +56,7 @@
                 {% for user in pagination.data %}   
                 <tr>
                     <td>{{ user.id }}</td>
-                    <td><img src="{{user.picture}}" alt="" class="avatar avatar-medium"> {{user.fullName}}</td>
+                    <td><img src="{{ asset('/uploads/' ~ user.picture) }}" alt="" class="avatar avatar-medium"> {{user.fullName}}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.phone }}</td>
                     <td class="text-center">
