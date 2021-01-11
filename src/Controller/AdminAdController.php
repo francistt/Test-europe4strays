@@ -22,12 +22,12 @@ class AdminAdController extends AbstractController
         $stats = $statsService->getStats();
 
         $pagination->setEntityClass(Ad::class)
-                   ->setLimit(10)
-                   ->setPage($page);
+            ->setLimit(10)
+            ->setPage($page);
 
         return $this->render('admin/ad/index.html.twig', [
-           'pagination' => $pagination,
-           'stats' => $stats
+            'pagination' => $pagination,
+            'stats' => $stats
         ]);
     }
 
@@ -39,12 +39,13 @@ class AdminAdController extends AbstractController
      * @param Ad $ad
      * @return Response
      */
-    public function edit(Ad $ad, Request $request, EntityManagerInterface $manager) {
+    public function edit(Ad $ad, Request $request, EntityManagerInterface $manager)
+    {
         $form = $this->createForm(AdType::class, $ad);
         //dd($request);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($ad);
             $manager->flush();
 
@@ -57,7 +58,7 @@ class AdminAdController extends AbstractController
         return $this->render('admin/ad/edit.html.twig', [
             'ad' => $ad,
             'form' => $form->createView()
-            ]);
+        ]);
     }
 
     /**
@@ -69,7 +70,8 @@ class AdminAdController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function delete(Ad $ad, EntityManagerInterface $manager) {
+    public function delete(Ad $ad, EntityManagerInterface $manager)
+    {
         $manager->remove($ad);
         $manager->flush();
 

@@ -1,92 +1,96 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  {{ad.name}}
+	{{ad.name}}
 {% endblock %}
 
 {% block content %}
 
-<div class="ad-title" style="background-image: url({{ asset('/uploads/' ~ ad.coverImage) }})">
-    <div class="container">
-        <h1>{{ad.name}}</h1>
-        <p class="h3">
-            <strong>{{ad.type}},</strong><strong> de {{ad.age}} ans</strong>
-        </p>
-        <a href="{{ path('contact') }}" class="btn btn-primary">Nous contacter</a>
-        {% if app.user and app.user == ad.author %}
-        <a href="{{ path('ads_edit', {'slug': ad.slug}) }}" class="btn btn-secondary">Modifier mon annonce</a>
-        
-        <a href="{{ path('ads_delete', {'slug': ad.slug}) }}" class="btn btn-danger" onclick="return confirm(`Êtes vous sur de vouloir supprimer l'annonce : {{ad.name}}, {{ad.age}} ans ?`)">Supprimer l'annonce</a>
-        {% endif %}
-    </div>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 mb-3">
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    {% for image in ad.images %}
-                    <li data-target="#carouselExampleIndicators" data-slide-to="{{ loop.index0 }}" {% if loop.first %}class="active"{% endif %}></li>
-                    {% endfor %}
-                </ol>
-                <div class="carousel-inner">
-                    {% for image in ad.images %}
-                        <div class="carousel-item {% if loop.first %}active{% endif %}">
-                            <img src="{{ image.url }}" class="d-block w-100" alt="Firstslide">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h2>{{ ad.name }}</h2>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
-                <h1>{{ad.name}}</h1>
-                <p>{{ad.introduction}}</p>
-                {{ ad.content | raw }}
-        </div>
+	<div class="ad-title" style="background-image: url({{ asset('/uploads/' ~ ad.coverImage) }})">
+		<div class="container">
+			<h1>{{ad.name}}</h1>
+			<p class="h3">
+				<strong>{{ad.type}},</strong>
+				<strong>
+					de
+					{{ad.age}}
+					ans</strong>
+			</p>
+			<a href="{{ path('contact') }}" class="btn btn-primary">Nous contacter</a>
+			{% if app.user and app.user == ad.author %}
+				<a href="{{ path('ads_edit', {'slug': ad.slug}) }}" class="btn btn-secondary">Modifier mon annonce</a>
 
-        <div class="card border-info mb-3" style="max-width: 20rem;">
-            {% set a = ad.author %}
-            <div class="card-header">
-                <h3>Famille d'accueil</h3>
-                <hr>
-                <div class="row">
-                    {% if a.picture != null %}
-                        <div class="col-4 mt-3">
-                            <div>
-                                <a href="{{ path('user_show', {'slug': a.slug}) }}">
-                                    <img src="{{ asset('/uploads/' ~ a.picture) }}" class="avatar avatar-medium" alt="Avatar de {{a.fullName}}">       
-                                </a>
-                            </div>
-                        </div>
-                    {% endif %}
-                    <div class="col mt-3">
-                        <div>
-                            <a href="{{ path('user_show', {'slug': a.slug}) }}">
-                                <h4>{{a.fullName}}</h4>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <p>
-                    {{a.description | raw}}
-                    <hr>
-                    <a href="mailto:{{a.email}}" class="btn btn-primary">contacter {{a.firstName}}</a>   
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
+				<a href="{{ path('ads_delete', {'slug': ad.slug}) }}" class="btn btn-danger" onclick="return confirm(`Êtes vous sur de vouloir supprimer l'annonce : {{ad.name}}, {{ad.age}} ans ?`)">Supprimer l'annonce</a>
+			{% endif %}
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 mb-3">
+				<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+					<ol class="carousel-indicators">
+						{% for image in ad.images %}
+							<li data-target="#carouselExampleIndicators" data-slide-to="{{ loop.index0 }}" {% if loop.first %} class="active" {% endif %}></li>
+						{% endfor %}
+					</ol>
+					<div class="carousel-inner">
+						{% for image in ad.images2 %}
+							<div class="carousel-item {% if loop.first %}active{% endif %}">
+								<img src="{{ asset('/uploads/' ~ image.name) }}" class="d-block w-100" alt="Firstslide">
+								<div class="carousel-caption d-none d-md-block">
+									<h2>{{ ad.name }}</h2>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+					<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a>
+					<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</div>
+				<h1>{{ad.name}}</h1>
+				<p>{{ad.introduction}}</p>
+				{{ ad.content | raw }}
+			</div>
+
+			<div class="card border-info mb-3" style="max-width: 20rem;">
+				{% set a = ad.author %}
+				<div class="card-header">
+					<h3>Famille d'accueil</h3>
+					<hr>
+					<div class="row">
+						{% if a.picture != null %}
+							<div class="col-4 mt-3">
+								<div>
+									<a href="{{ path('user_show', {'slug': a.slug}) }}">
+										<img src="{{ asset('/uploads/' ~ a.picture) }}" class="avatar avatar-medium" alt="Avatar de {{a.fullName}}">
+									</a>
+								</div>
+							</div>
+						{% endif %}
+						<div class="col mt-3">
+							<div>
+								<a href="{{ path('user_show', {'slug': a.slug}) }}">
+									<h4>{{a.fullName}}</h4>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<p>
+						{{a.description | raw}}
+						<hr>
+						<a href="mailto:{{a.email}}" class="btn btn-primary">contacter
+							{{a.firstName}}</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
 
 {% endblock %}
-

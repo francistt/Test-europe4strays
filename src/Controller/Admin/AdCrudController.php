@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 
 class AdCrudController extends AbstractCrudController
 {
@@ -40,11 +41,7 @@ class AdCrudController extends AbstractCrudController
             TextField::new('city', 'Ville'),
             TextField::new('introduction'),
             TextEditorField::new('content', 'Contenu'),
-            //ImageField::new('images')
-            //    ->setBasePath('uploads/')
-            //    ->setUploadDir('public/uploads')
-            //    ->setUploadedFileNamePattern('[randomhash].[extension]')
-            //    ->setRequired(false),
+            AssociationField::new('images2', 'Autre images')
         ];
     }
 }

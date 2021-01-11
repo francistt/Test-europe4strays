@@ -22,13 +22,12 @@ class AdRepository extends ServiceEntityRepository
     public function findLastAds($limit)
     {
         return $this->createQueryBuilder('a')
-                    ->select('a as annonce')
-                    ->orderBy('a.id', 'DESC')
-                    ->setMaxResults($limit)
-                    ->getQuery()
-                    ->getResult();
+            ->select('a as annonce')
+            ->orderBy('a.id', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
     }
-
 
     // /**
     //  * @return Ad[] Returns an array of Ad objects

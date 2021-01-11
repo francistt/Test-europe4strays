@@ -39,7 +39,7 @@ class AdType extends AbstractType
                 ]
             ])
             ->add('sexe', ChoiceType::class, [
-                'label' =>"Genre",
+                'label' => "Genre",
                 'choices' => array_flip([
                     'Male',
                     'Femelle'
@@ -47,12 +47,12 @@ class AdType extends AbstractType
                 'expanded' => true
             ])
             ->add('size', ChoiceType::class, [
-                'label' =>"Sa taille :",
+                'label' => "Sa taille :",
                 'choices' => array_flip([
                     'Petit',
                     'Moyen',
                     'Grand'
-                ]),   
+                ]),
             ])
             ->add('city', TextType::class, [
                 'label' => 'Lieu où il se trouve :',
@@ -81,14 +81,13 @@ class AdType extends AbstractType
                 'entry_type' => ImageType::class,
                 'allow_add' => true,
                 'allow_delete' => true
-                ])
+            ])
             ->add('images2', FileType::class, [
                 'label' => false,
                 'multiple' => true,
                 'mapped' => false,
                 'required' => false
-                ])
-            ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

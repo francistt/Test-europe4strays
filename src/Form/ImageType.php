@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ImageType extends AbstractType
@@ -19,12 +20,18 @@ class ImageType extends AbstractType
                     'placeholder'  => "URL de l'image"
                 ]
             ])
+
             ->add('caption', TextType::class, [
                 'attr' => [
                     'placeholder'  => "Titre de l'image"
                 ]
             ])
-        ;
+
+            ->add('images', FileType::class, [
+                'label' => "Image",
+                'mapped' => false,
+                'required' => false,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

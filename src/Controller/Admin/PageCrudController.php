@@ -17,7 +17,7 @@ class PageCrudController extends AbstractCrudController
         return Page::class;
     }
 
-    
+
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -25,17 +25,16 @@ class PageCrudController extends AbstractCrudController
                 Page::PAGE1,
                 Page::PAGE2,
                 Page::PAGE3
-                ]),
+            ]),
             TextField::new('title', 'Titre de la page'),
             TextEditorField::new('content', 'Contenu de la page'),
             ImageField::new('illustration')
-            ->setBasePath('uploads/')
-            ->setUploadDir('public/uploads')
-            ->setUploadedFileNamePattern('[randomhash].[extension]')
-            ->setRequired(false),
+                ->setBasePath('uploads/')
+                ->setUploadDir('public/uploads')
+                ->setUploadedFileNamePattern('[randomhash].[extension]')
+                ->setRequired(false),
             TextareaField::new('btnTitle', 'Titre du bouton'),
             TextareaField::new('btnUrl', 'Url de destination du bouton'),
         ];
     }
-
 }

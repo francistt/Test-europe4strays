@@ -29,8 +29,7 @@ class PasswordUpdateType extends AbstractType
                 'attr' => [
                     'placeholder' => "Veuillez confirmer votre nouveau mot de passe"
                 ]
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

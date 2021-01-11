@@ -9,11 +9,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class Mail
 {
     private $parameterBagInterface;
-   
     private $api_key_secret = '4051cac764d580c3ccd8de552fbafa23';
     private $api_key = '482cdf4b45dc2edc3ab1900ea08bfa00';
-
-   
 
     /**
      * Permet d'envoyer un email

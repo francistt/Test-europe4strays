@@ -23,7 +23,7 @@ class ContactController extends AbstractController
                 'success',
                 'Merci de nous avoir contacté, nous allons vous répondre dans les meilleurs délais.'
             );
-        
+
             $mail = new Mail();
             $mail->send('europe4strays@nevertoolate.fr', 'Europe4strays', 'Vous avez reçu une nouvelle demande de contact', $form->getData());
         }

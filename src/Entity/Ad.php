@@ -107,8 +107,9 @@ class Ad
      * 
      * @return void
      */
-    public function initializeSlug() {
-        if(empty($this->slug)) {
+    public function initializeSlug()
+    {
+        if (empty($this->slug)) {
             $slugify = new Slugify();
             $this->slug = $slugify->slugify($this->name);
         }

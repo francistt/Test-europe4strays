@@ -1,60 +1,64 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modification du profil utilisateur{% endblock %}
+{% block title %}Modification du profil utilisateur
+{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h1 class="my-5">Modification du profil</h1>
+	<div class="container">
+		<h1 class="my-5">Modification du profil</h1>
 
-        {{ form_start(form) }}
+		{{ form_start(form) }}
 
-        <div class="row">
-            <div class="col">
-                <div class="alert alert-light">
-                    <h2 class="aert-heading">Informations générales</h2>
-                    <hr>
-                    {{ form_row(form.firstName) }}
-                    {{ form_row(form.lastName) }}
-                    {{ form_row(form.email) }}
-                   
-                   {% if user.picture != null %}
-                        <div>
-                            <img src="{{ asset('/uploads/' ~ user.picture) }}" alt="Image" width="100">
-                            <a href="{{ path('user_delete_image', {'id': user.id}) }}"
-                            data-delete data-token="{{ csrf_token('delete' ~ user.id) }}"><i class="fas fa-trash fa-2x"></i></a>
-                        </div>
-                    {% endif %}
-                 
-                    <div class="upload-image-strip">
-                        <button type="button" class="file-select-button btn btn-info">
-                            <i class="fas fa-upload"></i>
-                            <span class="name-file">  Télécharger une nouvelle image </span>
-                        </button>
-                        {{ form_widget(form.picture, {'label': ' '}) }} 
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="alert alert-light">
-                    <h2 class="alert-heading">Détails</h2>
-                    <hr>
-                    {{ form_row(form.introduction) }}
-                    {{ form_row(form.description) }}
-                </div>
-                <div class="alert alert-primary mt-3"> 
-                    <button type="submit" class="btn btn-primary btn-block">
-                        <i class="fas fa-check"></i>
-                        Enregistrer les modifications
-                    </button>
-                </div>
-            </div>
-        </div>
+		<div class="row">
+			<div class="col">
+				<div class="alert alert-light">
+					<h2 class="aert-heading">Informations générales</h2>
+					<hr>
+					{{ form_row(form.firstName) }}
+					{{ form_row(form.lastName) }}
+					{{ form_row(form.email) }}
+
+					{% if user.picture != null %}
+						<div>
+							<img src="{{ asset('/uploads/' ~ user.picture) }}" alt="Image" width="100">
+							<a href="{{ path('user_delete_image', {'id': user.id}) }}" data-delete data-token="{{ csrf_token('delete' ~ user.id) }}">
+								<i class="fas fa-trash fa-2x"></i>
+							</a>
+						</div>
+					{% endif %}
+
+					<div class="upload-image-strip">
+						<button type="button" class="file-select-button btn btn-info">
+							<i class="fas fa-upload"></i>
+							<span class="name-file">
+								Télécharger une nouvelle image
+							</span>
+						</button>
+						{{ form_widget(form.picture, {'label': ' '}) }}
+					</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="alert alert-light">
+					<h2 class="alert-heading">Détails</h2>
+					<hr>
+					{{ form_row(form.introduction) }}
+					{{ form_row(form.description) }}
+				</div>
+				<div class="alert alert-primary mt-3">
+					<button type="submit" class="btn btn-primary btn-block">
+						<i class="fas fa-check"></i>
+						Enregistrer les modifications
+					</button>
+				</div>
+			</div>
+		</div>
 
 
-        {{ form_end(form) }}
-    </div>
+		{{ form_end(form) }}
+	</div>
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('js/images.js') }}"></script>
+	<script src="{{ asset('js/images.js') }}"></script>
 {% endblock %}

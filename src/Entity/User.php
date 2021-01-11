@@ -92,7 +92,8 @@ class User implements UserInterface
      */
     private $phone;
 
-    public function getFullName() {
+    public function getFullName()
+    {
         return "{$this->firstName} {$this->lastName}";
     }
 
@@ -104,8 +105,9 @@ class User implements UserInterface
      * 
      * @return void
      */
-    public function initializeSlug() {
-        if(empty($this->slug)) {
+    public function initializeSlug()
+    {
+        if (empty($this->slug)) {
             $slugify = new Slugify();
             $this->slug = $slugify->slugify($this->firstName . ' ' . $this->lastName);
         }
@@ -249,9 +251,10 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getRoles() {
+    public function getRoles()
+    {
 
-        $roles = $this->userRoles->map(function($role){
+        $roles = $this->userRoles->map(function ($role) {
             return $role->getTitle();
         })->toArray();
 
@@ -260,13 +263,18 @@ class User implements UserInterface
         return $roles;
     }
 
-    public function getSalt(){}
+    public function getSalt()
+    {
+    }
 
-    public function getUsername() {
+    public function getUsername()
+    {
         return $this->email;
     }
 
-    public function eraseCredentials() {}
+    public function eraseCredentials()
+    {
+    }
 
     /**
      * @return Collection|Role[]

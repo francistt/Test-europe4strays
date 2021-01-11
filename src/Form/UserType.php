@@ -50,8 +50,7 @@ class UserType extends AbstractType
                 'attr' => [
                     'placeholder' => "Présentez-vous en détails"
                 ]
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -17,9 +17,9 @@ class AdminUserController extends AbstractController
     public function index($page, Pagination $pagination, StatsService $statsService)
     {
         $stats = $statsService->getStats();
-        
+
         $pagination->setEntityClass(User::class)
-                   ->setPage($page);
+            ->setPage($page);
 
         return $this->render('admin/user/index.html.twig', [
             'pagination' => $pagination,
@@ -38,7 +38,7 @@ class AdminUserController extends AbstractController
      */
     public function delete(User $user, EntityManagerInterface $manager)
     {
-        if(count($user->getAds()) > 0) {
+        if (count($user->getAds()) > 0) {
             $this->addFlash(
                 'danger',
                 "Vous ne pouvez pas supprimer l'utilisateur <strong>{$user->getFullName()}</strong> car il possède déjà des annonces. Veuillez d'abord supprimer ses annonces."
@@ -52,7 +52,7 @@ class AdminUserController extends AbstractController
                 "L'utilisateur <strong>{$user->getFullName()}</strong> a bien été supprmiée."
 
             );
-        }   
+        }
         return $this->redirectToRoute('admin_user_index');
     }
 }

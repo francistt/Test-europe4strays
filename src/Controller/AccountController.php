@@ -46,7 +46,9 @@ class AccountController extends AbstractController
      *
      * @return void
      */
-    public function logout() {}
+    public function logout()
+    {
+    }
 
     /**
      * Permet d'afficher le formulaire d'inscription
@@ -55,14 +57,15 @@ class AccountController extends AbstractController
      *
      * @return Response
      */
-    public function register(Request $request,EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder) {
+    public function register(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    {
         $user = new User();
 
         $form = $this->createForm(RegistrationType::class, $user);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $password = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
 
@@ -76,14 +79,14 @@ class AccountController extends AbstractController
                 $fichier
             );
             // On stocke le nom de l'image dans la BDD
-                $user->setPicture($fichier);
-            
+            $user->setPicture($fichier);
+
             $manager->persist($user);
             $manager->flush();
 
-           // $mail = new Mail();
-           // $content = "Bonjour ".$user->getFirstName()."<br/>Bienvenue sur Europe4Strays<br><br/>";
-           // $mail->send($user->getEmail(), $user->getFirstName(), 'Bienvenue sur Europe4strays', $content);
+            // $mail = new Mail();
+            // $content = "Bonjour ".$user->getFirstName()."<br/>Bienvenue sur Europe4Strays<br><br/>";
+            // $mail->send($user->getEmail(), $user->getFirstName(), 'Bienvenue sur Europe4strays', $content);
 
             $this->addFlash(
                 "success",
@@ -106,37 +109,38 @@ class AccountController extends AbstractController
      * 
      * @return Response
      */
-    public function profile(Request $request, EntityManagerInterface $manager) {
+    public function profile(Request $request, EntityManagerInterface $manager)
+    {
         $user = $this->getUser();
 
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
-        // On récupère l'image transmise
-        $picture = $form->get('picture')->getData();
+            // On récupère l'image transmise
+            $picture = $form->get('picture')->getData();
 
-        if($picture){
-            // On génère un nom de fichier
-            $fichier = md5(uniqid()) . '.' . $picture->guessExtension();
-            // On copie le fichier dans le dossier uploads
-            $picture->move(
-                $this->getParameter('images_directory'),
-                $fichier
-            );
-            // On stocke le nom de l'image dans la BDD
+            if ($picture) {
+                // On génère un nom de fichier
+                $fichier = md5(uniqid()) . '.' . $picture->guessExtension();
+                // On copie le fichier dans le dossier uploads
+                $picture->move(
+                    $this->getParameter('images_directory'),
+                    $fichier
+                );
+                // On stocke le nom de l'image dans la BDD
                 $user->setPicture($fichier);
-        }
-     
-        $manager->persist($user);
-        $manager->flush();
+            }
 
-        $this->addFlash(
-            'success',
-            "Les données du profil ont bien été enregistrées !"
-        );
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Les données du profil ont bien été enregistrées !"
+            );
         }
 
         return $this->render('account/profile.html.twig', [
@@ -153,7 +157,8 @@ class AccountController extends AbstractController
      * 
      * @return Response
      */
-    public function updatePassword(Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $manager) {
+    public function updatePassword(Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $manager)
+    {
         $passwordUpdate = new PasswordUpdate();
 
         $user = $this->getUser();
@@ -162,9 +167,9 @@ class AccountController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             // 1. Vérifier que le oldPassword du formulaire soit le même que le password de l'user
-            if(!password_verify($passwordUpdate->getOldPassword(), $user->getPassword())){
+            if (!password_verify($passwordUpdate->getOldPassword(), $user->getPassword())) {
                 // Gérer l'erreur
                 $form->get('oldPassword')->addError(new FormError("Le mot de passe que vous avez saisi n'est pas votre mot de passe actuel"));
             } else {
@@ -196,7 +201,8 @@ class AccountController extends AbstractController
      * 
      * @return Response
      */
-    public function myAccount() {
+    public function myAccount()
+    {
         return $this->render('user/index.html.twig', [
             'user' => $this->getUser()
         ]);
@@ -204,7 +210,7 @@ class AccountController extends AbstractController
 
     /**
      * Permet d'effacer l'image de profil
-     * @Route("/supprime/image/{id}", name="user_delete_image", methods={"DELETE", "GET"})
+     * @Route("/supprime/user_image/{id}", name="user_delete_image", methods={"DELETE", "GET"})
      * 
      */
     public function deletePicture(User $user, Request $request)
@@ -212,11 +218,11 @@ class AccountController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         // On vérifie si le token est valide
-        if($this->isCsrfTokenValid('delete'.$user->getId(), $data['_token'])){
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $data['_token'])) {
             // On vérifie le nom de l'image
             $nom = $user->getPicture();
             // On supprime le fichier
-            unlink($this->getParameter('images_directory').'/'.$nom);
+            unlink($this->getParameter('images_directory') . '/' . $nom);
 
             // On supprime l'entrée de la BDD
             $user->setPicture(null);
@@ -224,8 +230,8 @@ class AccountController extends AbstractController
             $em->flush();
 
             // On répond en json
-            return new JsonResponse(['success' => 1]);       
-        }else{
+            return new JsonResponse(['success' => 1]);
+        } else {
             return new JsonResponse(['error' => 'Token Invalide'], 400);
         }
     }

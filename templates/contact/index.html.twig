@@ -1,35 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nous contacter - Europe4strays{% endblock %}
+{% block title %}Nous contacter - Europe4strays
+{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h2>Nous contacter</h2>
-        <p>Si vous souhaitez adopter un de nos amis, ou si vous souhaitez devenir hôte d'accueil,<br/>
-        n'hésitez pas à prendre contact. Nous vous répondrons dans les meilleurs délais</p>
-        {% for label, messages in app.flashes %}
-            <div class="alert alert-{{ label }}">{{ message }}</div>
-        {% endfor %}
-        <div class="row">
-            <div class="col-md-8">{{ form(form) }}</div>
-            <div class="col-md-4">
-                <img src="{{ asset('assets/img/favicon.ico') }}" height="18px" alt="icone"> <strong>EUROPE4STRAYS</strong>
-                <hr>
-                Nous sommes aussi sur :</br>
-                <br/>
-                <a href="http://twitter.com/share?text=europe4strays&url=https%3A%2F%2Feurope4strays.jimdofree.com%2F">
-                        <img src="{{ asset('assets/img/twitter.png') }}" height="38px" alt="twitter">
-                </a> |  
-                <a href="http://www.facebook.com/sharer.php?u=https://europe4strays.jimdofree.com/&t=europe4strays">
-                            <img src="{{ asset('assets/img/facebook.png') }}" height="38px" alt="facebook">
-                </a> |
-                <a href="http://www.tumblr.com/share?v=3&u=https://europe4strays.jimdofree.com/&t=europe4strays">
-                            <img src="{{ asset('assets/img/tumblr.png') }}" height="38px" alt="tumblr">
-                </a> |
-                <a href="{{ path('contact') }}">
-                            <img src="{{ asset('assets/img/email.png') }}" height="44px" alt="email">
-                </a>
-            </div>
-        </div>
-    </div>
+	<div class="container">
+		<h2>Nous contacter</h2>
+		<p>Si vous souhaitez adopter un de nos amis, ou si vous souhaitez devenir hôte d'accueil,<br/>
+			n'hésitez pas à prendre contact. Nous vous répondrons dans les meilleurs délais</p>
+		{% for label, messages in app.flashes %}
+			<div class="alert alert-{{ label }}">{{ message }}</div>
+		{% endfor %}
+		<div class="row">
+			<div class="col-md-8">
+				{{ form(form) }}
+				</div>
+				<div class="col-md-4">
+					<img src="{{ asset('assets/img/favicon.ico') }}" height="18px" alt="icone">
+					<strong>EUROPE4STRAYS</strong>
+					<hr>
+					Nous sommes aussi sur :</br>
+				<br/>
+				<a href="http://twitter.com/share?text=europe4strays&url=https%3A%2F%2Feurope4strays.jimdofree.com%2F">
+					<img src="{{ asset('assets/img/twitter.png') }}" height="38px" alt="twitter">
+				</a>
+				|
+				<a href="http://www.facebook.com/sharer.php?u=https://europe4strays.jimdofree.com/&t=europe4strays">
+					<img src="{{ asset('assets/img/facebook.png') }}" height="38px" alt="facebook">
+				</a>
+				|
+				<a href="http://www.tumblr.com/share?v=3&u=https://europe4strays.jimdofree.com/&t=europe4strays">
+					<img src="{{ asset('assets/img/tumblr.png') }}" height="38px" alt="tumblr">
+				</a>
+				|
+				<a href="{{ path('contact') }}">
+					<img src="{{ asset('assets/img/email.png') }}" height="44px" alt="email">
+				</a>
+			</div>
+		</div>
+	</div>
 {% endblock %}

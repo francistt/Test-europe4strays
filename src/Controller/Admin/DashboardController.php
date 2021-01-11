@@ -3,8 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Ad;
-use App\Entity\User;
 use App\Entity\Page;
+use App\Entity\User;
 use App\Entity\WelcomePage;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,12 +14,14 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
 {
+
     /**
      * @Route("/admin2", name="admin2")
      */
     public function index(): Response
     {
-        return parent::index();
+
+        return $this->render('bundles/EasyAdminBundle/welcome.html.twig');
     }
 
     public function configureDashboard(): Dashboard

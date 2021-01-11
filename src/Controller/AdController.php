@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,8 +45,8 @@ class AdController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-
-
+            
+         
              // On récupère l'image transmise
              $picture = $form->get('coverImage')->getData();
              // On génère un nom de fichier
@@ -60,23 +61,26 @@ class AdController extends AbstractController
 
 
 
-            // On récupère l'image transmise
-            //$images = $form->get('images2')->getData();
+                    // On récupère l'image transmise
+                    $images = $form->get('images2')->getData();
 
-            // On boucle sur les images
-            //foreach($images as $image){
-                // On génère un nom de fichier
-            //    $fichier = md5(uniqid()) . '.' . $image->guessExtension();             
-            //}
-            // On copie le fichier dans le dossier uploads
-            //$image->move(
-            //    $this->getParameter('images_directory'),
-            //    $fichier
-            //);
-            // On stocke le nom de l'image dans la BDD
-            //    $img = new Images();
-            //    $img->setName($fichier);
-            //    $ad->addImages2($img);
+                    // On boucle sur les images
+                    foreach($images as $image){
+                        // On génère un nom de fichier
+                        $fichier = md5(uniqid()) . '.' . $image->guessExtension();             
+                    }
+                    // On copie le fichier dans le dossier uploads
+                    $image->move(
+                        $this->getParameter('images_directory'),
+                        $fichier
+                    );
+                    // On stocke le nom de l'image dans la BDD
+                        $img = new Images();
+                        $img->setName($fichier);
+                        $ad->addImages2($img);
+
+
+
 
 
             foreach($ad->getImages() as $image) {
@@ -138,6 +142,32 @@ class AdController extends AbstractController
 
 
 
+
+
+            // On récupère l'image transmise
+            $images = $form->get('images2')->getData();
+
+            if($images){
+                // On boucle sur les images
+                foreach($images as $image){
+                    // On génère un nom de fichier
+                $fichier = md5(uniqid()) . '.' . $image->guessExtension();             
+                }
+                // On copie le fichier dans le dossier uploads
+                $image->move(
+                    $this->getParameter('images_directory'),
+                    $fichier
+                );
+                // On stocke le nom de l'image dans la BDD
+                    $img = new Images();
+                    $img->setName($fichier);
+                    $ad->addImages2($img);
+            }
+
+
+
+
+
             foreach($ad->getImages() as $image) {
                 $image->setAd($ad);
                 $manager->persist($image);
@@ -196,6 +226,35 @@ class AdController extends AbstractController
         );
 
         return $this->redirectToRoute("ads_index");
+    }
+
+
+        /**
+     * Permet d'effacer l'image de profil
+     * @Route("/supprime/ad_image/{id}", name="ad_delete_image", methods={"DELETE", "GET"})
+     * 
+     */
+    public function deletePicture(Images $image, Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+
+        // On vérifie si le token est valide
+        if($this->isCsrfTokenValid('delete'.$image->getId(), $data['_token'])){
+            // On vérifie le nom de l'image
+            $nom = $image->getName();
+            // On supprime le fichier
+            unlink($this->getParameter('images_directory').'/'.$nom);
+
+            // On supprime l'entrée de la BDD
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($image);
+            $em->flush();
+
+            // On répond en json
+            return new JsonResponse(['success' => 1]);       
+        }else{
+            return new JsonResponse(['error' => 'Token Invalide'], 400);
+        }
     }
 }
 
