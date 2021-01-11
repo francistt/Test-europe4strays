@@ -99,6 +99,11 @@ class Ad
         $this->images2 = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
     /**
      * Permet d'initialiser le slug !
      * 

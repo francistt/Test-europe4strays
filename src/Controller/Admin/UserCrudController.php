@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 
@@ -17,7 +18,7 @@ class UserCrudController extends AbstractCrudController
         return User::class;
     }
 
-
+    
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -30,9 +31,11 @@ class UserCrudController extends AbstractCrudController
                 ->setUploadDir('public/uploads')
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
                 ->setRequired(false),
-            Textfield::new('password'),
             TextField::new('introduction'),
-            TextEditorField::new('description')
+            TextEditorField::new('description'),
+            AssociationField::new('ads', "Nombres d'annonces"),
+            Textfield::new('password')
         ];
     }
+    
 }

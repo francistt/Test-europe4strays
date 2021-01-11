@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminUserController extends AbstractController
 {
     /**
-     * @Route("/admin/users/{page<\d+>?1}", name="admin_user_index")
+     * @Route("/admin2/users/{page<\d+>?1}", name="admin_user_index")
      */
     public function index($page, Pagination $pagination, StatsService $statsService)
     {
@@ -30,7 +30,7 @@ class AdminUserController extends AbstractController
     /**
      * Permet de supprimer un utilisateur
      *
-     * @Route("/admin/users/{id}/delete", name="admin_users_delete")
+     * @Route("/admin2/users/{id}/delete", name="admin_users_delete")
      * 
      * @param User $user
      * @param EntityManagerInterface $manager

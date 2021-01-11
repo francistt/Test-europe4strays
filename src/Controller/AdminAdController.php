@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminAdController extends AbstractController
 {
     /**
-     * @Route("/admin/ads/{page<\d+>?1}", name="admin_ads_index")
+     * @Route("/admin2/ads/{page<\d+>?1}", name="admin_ads_index")
      */
     public function index($page, Pagination $pagination, StatsService $statsService)
     {
@@ -34,7 +34,7 @@ class AdminAdController extends AbstractController
     /**
      * Permet d'afficher le formulaire d'édition
      * 
-     * @Route("/admin/ads/{id}/edit", name="admin_ads_edit")
+     * @Route("/admin2/ads/{id}/edit", name="admin_ads_edit")
      *
      * @param Ad $ad
      * @return Response
@@ -64,7 +64,7 @@ class AdminAdController extends AbstractController
     /**
      * Permet de supprimer une annonce
      *
-     * @Route("/admin/ads/{id}/delete", name="admin_ads_delete")
+     * @Route("/admin2/ads/{id}/delete", name="admin_ads_delete")
      * 
      * @param Ad $ad
      * @param EntityManagerInterface $manager

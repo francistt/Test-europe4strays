@@ -29,6 +29,14 @@ class AdRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function CountAllAd()
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+        $queryBuilder->select('COUNT(a.id) as value');
+
+        return $queryBuilder->getQuery()->getSingleScalarResult();
+    }
+
     // /**
     //  * @return Ad[] Returns an array of Ad objects
     //  */
