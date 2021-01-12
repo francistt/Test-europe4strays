@@ -7,7 +7,6 @@
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
-
 	<div class="collapse navbar-collapse" id="navbarColor03">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item">
@@ -16,18 +15,11 @@
 			<li class="nav-item">
 				<a class="nav-link" href="{{ path('ads_index') }}">Nos annonces</a>
 			</li>
-
-			<li class="nav-item">
-				<a class="nav-link" href="{{ path('page1') }}">Qui sommes nous ?
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="{{ path('page2') }}">Devenir famille d'acueil</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="{{ path('page3') }}">Faire un don</a>
-			</li>
-
+			{% for page in pages %}
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('page1') }}">{{ page.title }}</a>
+				</li>
+			{% endfor %}
 			<li class="nav-item">
 				<a class="nav-link" href="{{ path('contact') }}">Contact</a>
 			</li>

@@ -41,9 +41,9 @@ class HomeController extends AbstractController {
     public function list(AdRepository $adRepo){
 
         $pages = $this->entityManager->getRepository(Page::class)->findAll();
-        dd($pages);
+        //dd($pages);
         return $this->render(
-            'home.html.twig',
+            'partials/header.html.twig',
             [
                 'pages' => $pages,
             ]
@@ -77,7 +77,7 @@ class HomeController extends AbstractController {
         $type = Page::PAGE2;
         $page2 = $this->entityManager->getRepository(Page::class)->findBy(['type' => $type]);
         return $this->render(
-            'pages/page2.html.twig',
+            "pages/$type.html.twig",
             [
                 'page2' => $page2
             ]
@@ -94,7 +94,7 @@ class HomeController extends AbstractController {
         $type = Page::PAGE3;
         $page3 = $this->entityManager->getRepository(Page::class)->findBy(['type' => $type]);
         return $this->render(
-            'pages/page3.html.twig',
+            "pages/$type.html.twig",
             [
                 'page3' => $page3
             ]

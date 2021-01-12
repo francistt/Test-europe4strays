@@ -100,9 +100,9 @@ span.rating i {
 }
 
 .upload-image-strip .file-select-button {
-    height: 51px;
+    height: 40px;
     min-width: 169px;
-    margin-top: 5px;
+    margin-top: 7px;
 }
 
 .upload-image-strip input[type='file'] {
@@ -112,4 +112,16 @@ span.rating i {
     height: 1px;
     width: 1px;
     z-index: -5;
+}
+
+.fa-trash {
+    color: #ff7851;
+}
+
+.custom-file label {
+    display: all;
+}
+  
+.custom-file-input:lang(fr) ~ .custom-file-label::after {
+    content: "Chercher";
 }

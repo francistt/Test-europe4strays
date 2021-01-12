@@ -60,11 +60,10 @@
 						</div>
 
 						{{ form_row(form.images) }}
+					
 
-
-						{{ form_row(form.images2) }}
 						{% for image in ad.images2 %}
-							<div>
+							<div class="image mb-2">
 								<img src="{{ asset('/uploads/' ~ image.name) }}" alt="Image" width="100">
 								<a href="{{ path('ad_delete_image', {'id': image.id}) }}" data-delete data-token="{{ csrf_token('delete' ~ image.id) }}">
 									<i class="fas fa-trash fa-2x"></i>
@@ -93,5 +92,4 @@
 
 	<script src="/js/ad.js"></script>
 	<script src="{{ asset('js/images.js') }}"></script>
-
 {% endblock %}

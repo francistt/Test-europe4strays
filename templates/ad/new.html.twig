@@ -56,7 +56,7 @@
 						</div>
 
 						{{ form_row(form.images) }}
-						{{ form_row(form.images2) }}
+					
 					</div>
 				</div>
 				<div class="alert alert-success mt-3">
@@ -75,7 +75,7 @@
 
 {% block javascripts %}
 
-	<script src="/js/ad.js"></script>
+	<script src="{{ asset('js/ad.js') }}"></script>
 	<script src="{{ asset('js/images.js') }}"></script>
 
 {% endblock %}
