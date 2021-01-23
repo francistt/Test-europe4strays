@@ -9,7 +9,11 @@
 	<div class="containter">
 		<div class="row align-items-center mb-4">
 			<div class="col-3 text-center mt-3">
-				<img src="{{ asset('/uploads/' ~ user.picture) }}" class="avatar mb-3" alt="Avatar de {{user.fullName}}">
+				{% if user.picture != null %}
+					<img src="{{ asset('/uploads/' ~ user.picture) }}" class="avatar mb-3" alt="Avatar de {{user.fullName}}">
+				{% else %}
+					<img src="{{ asset('/assets/img/avatar.svg') }}" class="avatar mb-3" alt="Avatar de {{user.fullName}}">
+				{% endif %}
 				<br>
 				<span class="badge badge-info">{{user.ads | length}}
 					annonces</span>

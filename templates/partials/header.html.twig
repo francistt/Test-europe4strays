@@ -15,11 +15,9 @@
 			<li class="nav-item">
 				<a class="nav-link" href="{{ path('ads_index') }}">Nos annonces</a>
 			</li>
-			{% for page in pages %}
-				<li class="nav-item">
-					<a class="nav-link" href="{{ path('page1') }}">{{ page.title }}</a>
-				</li>
-			{% endfor %}
+			{{ render(controller(
+					'App\\Controller\\HomeController::list'
+				)) }}
 			<li class="nav-item">
 				<a class="nav-link" href="{{ path('contact') }}">Contact</a>
 			</li>
@@ -30,6 +28,8 @@
 					<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="accountDropdownLink">
 						{% if app.user.picture != null %}
 							<img src="{{ asset('/uploads/' ~ app.user.picture) }}" class="avatar avatar-mini" alt="Avatar de {{app.user.fullName}}">
+						{% else %}
+							<img src="{{ asset('/assets/img/avatar.svg') }}" class="avatar avatar-mini" alt="Avatar de {{app.user.fullName}}">
 						{% endif %}
 						{{app.user.fullName}}
 					</a>

@@ -72,15 +72,9 @@ class Ad
     private $city;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="smallint")     
      */
     private $size;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="ad", orphanRemoval=true)
-     * @Assert\Valid()
-     */
-    private $images;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ads")
@@ -89,14 +83,13 @@ class Ad
     private $author;
 
     /**
-     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="annonces", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="annonce", cascade={"persist", "remove"})
      */
-    private $images2;
+    private $images;
 
     public function __construct()
     {
         $this->images = new ArrayCollection();
-        $this->images2 = new ArrayCollection();
     }
 
     public function __toString()
@@ -245,37 +238,6 @@ class Ad
         return $this;
     }
 
-    /**
-     * @return Collection|Image[]
-     */
-    public function getImages(): Collection
-    {
-        return $this->images;
-    }
-
-    public function addImage(Image $image): self
-    {
-        if (!$this->images->contains($image)) {
-            $this->images[] = $image;
-            $image->setAd($this);
-        }
-
-        return $this;
-    }
-
-    public function removeImage(Image $image): self
-    {
-        if ($this->images->contains($image)) {
-            $this->images->removeElement($image);
-            // set the owning side to null (unless already changed)
-            if ($image->getAd() === $this) {
-                $image->setAd(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getAuthor(): ?User
     {
         return $this->author;
@@ -291,30 +253,34 @@ class Ad
     /**
      * @return Collection|Images[]
      */
-    public function getImages2(): Collection
+    public function getImages(): Collection
     {
-        return $this->images2;
+        return $this->images;
     }
 
-    public function addImages2(Images $images2): self
+    public function addImage(Images $image): self
     {
-        if (!$this->images2->contains($images2)) {
-            $this->images2[] = $images2;
-            $images2->setAnnonces($this);
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setAnnonce($this);
         }
 
         return $this;
     }
 
-    public function removeImages2(Images $images2): self
+    public function removeImage(Images $image): self
     {
-        if ($this->images2->removeElement($images2)) {
+        if ($this->images->removeElement($image)) {
             // set the owning side to null (unless already changed)
-            if ($images2->getAnnonces() === $this) {
-                $images2->setAnnonces(null);
+            if ($image->getAnnonce() === $this) {
+                $image->setAnnonce(null);
             }
         }
 
         return $this;
     }
+
+    
+
+    
 }

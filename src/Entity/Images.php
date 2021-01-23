@@ -2,11 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\ImagesRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ImagesRepository;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=ImagesRepository::class)
+ * @Vich\Uploadable()
  */
 class Images
 {
@@ -23,10 +27,20 @@ class Images
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Ad::class, inversedBy="images2")
-     * @ORM\JoinColumn(nullable=false)
+     * @Vich\UploadableField(mapping="post_images", fileNameProperty="name")
+     * @var File
      */
-    private $annonces;
+    private $nameFile;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Ad::class, inversedBy="images", cascade={"persist"})
+     */
+    private $annonce;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updatedAt;
 
     public function __toString()
     {
@@ -50,14 +64,51 @@ class Images
         return $this;
     }
 
-    public function getAnnonces(): ?Ad
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->annonces;
+        return $this->updatedAt;
     }
 
-    public function setAnnonces(?Ad $annonces): self
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
-        $this->annonces = $annonces;
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of nameFile
+     *
+     * @return  File|null
+     */ 
+    public function getNameFile(): ?File
+    {
+        return $this->nameFile;
+    }
+
+    /**
+     * Set the value of nameFile
+     *
+     * @param File|null $nameFile
+     * @return void
+     */
+    public function setNameFile(?File $nameFile = null)
+    {
+        $this->nameFile = $nameFile;
+
+        if ($nameFile) {
+            $this->updatedAt = new \DateTime();
+        }
+    }
+
+    public function getAnnonce(): ?Ad
+    {
+        return $this->annonce;
+    }
+
+    public function setAnnonce(?Ad $annonce): self
+    {
+        $this->annonce = $annonce;
 
         return $this;
     }

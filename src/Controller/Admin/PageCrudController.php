@@ -22,9 +22,9 @@ class PageCrudController extends AbstractCrudController
     {
         return [
             ChoiceField::new('type', 'Type de la page')->setChoices([
-                Page::PAGE1,
-                Page::PAGE2,
-                Page::PAGE3
+                "page 1",
+                "page 2",
+                "Page::PAGE3"
             ]),
             TextField::new('title', 'Titre de la page'),
             TextEditorField::new('content', 'Contenu de la page'),

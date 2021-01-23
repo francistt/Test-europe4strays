@@ -37,51 +37,53 @@ class AdController extends AbstractController
      *
      * @return Response
      */
-    public function create(Request $request,EntityManagerInterface $manager){
+    public function create(Request $request, EntityManagerInterface $manager)
+    {
         $ad = new Ad();
 
         $form = $this->createForm(AdType::class, $ad);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
-            
-         
-             // On récupère l'image transmise
-             $picture = $form->get('coverImage')->getData();
-             // On génère un nom de fichier
-             $fichier = md5(uniqid()) . '.' . $picture->guessExtension();
-             // On copie le fichier dans le dossier uploads
-             $picture->move(
-                 $this->getParameter('images_directory'),
-                 $fichier
-             );
-             // On stocke le nom de l'image dans la BDD
-                 $ad->setCoverImage($fichier);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // On récupère l'image transmise
+            $picture = $form->get('coverImage')->getData();
+            // On génère un nom de fichier
+            $fichier = md5(uniqid()) . '.' . $picture->guessExtension();
+            // On copie le fichier dans le dossier uploads
+            $picture->move(
+                $this->getParameter('images_directory'),
+                $fichier
+            );
+            // On stocke le nom de l'image dans la BDD
+            $ad->setCoverImage($fichier);
+
+            foreach($ad->getImages() as $key => $image) {
+                $image->setName($this->getUser()->getId() .$key) ;
+            }
 
 
+       
 
-                    // On récupère l'image transmise
-                    $images = $form->get('images2')->getData();
+            // if ($images) {
+            //     // On boucle sur les images
+            //     foreach ($images as $image) {
+            //         // On génère un nom de fichier
+            //         $fichier = md5(uniqid()) . '.' . $image->guessExtension();
 
-                    // On boucle sur les images
-                    foreach($images as $image){
-                        // On génère un nom de fichier
-                        $fichier = md5(uniqid()) . '.' . $image->guessExtension();             
-                    }
-                    // On copie le fichier dans le dossier uploads
-                    $image->move(
-                        $this->getParameter('images_directory'),
-                        $fichier
-                    );
-                    // On stocke le nom de l'image dans la BDD
-                        $img = new Images();
-                        $img->setName($fichier);
-                        $ad->addImages2($img);
-
-
-
-
+            //         // On copie le fichier dans le dossier uploads
+            //         $image->move(
+            //             $this->getParameter('images_directory'),
+            //             $fichier
+            //         );
+            //         // On stocke le nom de l'image dans la BDD
+            //         $img = new Images();
+            //         $img->setName($fichier);
+            //         $ad->addImages2($img);
+            //         $manager->persist($img);
+            //     }
+            // }
 
             //foreach($ad->getImages() as $image) {
             //    $image->setAd($ad);
@@ -116,19 +118,19 @@ class AdController extends AbstractController
      * 
      * @return Response
      */
-    public function edit(Ad $ad, Request $request, EntityManagerInterface $manager){
-        
+    public function edit(Ad $ad, Request $request, EntityManagerInterface $manager)
+    {
+
         $form = $this->createForm(AdType::class, $ad);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
-            
             // On récupère l'image transmise
             $picture = $form->get('coverImage')->getData();
 
-            if($picture){
+            if ($picture) {
                 // On génère un nom de fichier
                 $fichier = md5(uniqid()) . '.' . $picture->guessExtension();
                 // On copie le fichier dans le dossier uploads
@@ -137,36 +139,29 @@ class AdController extends AbstractController
                     $fichier
                 );
                 // On stocke le nom de l'image dans la BDD
-                    $ad->setCoverImage($fichier);
+                $ad->setCoverImage($fichier);
             }
-
-
-
-
 
             // On récupère l'image transmise
             $images = $form->get('images2')->getData();
 
-            if($images){
+            if ($images) {
                 // On boucle sur les images
-                foreach($images as $image){
+                foreach ($images as $image) {
                     // On génère un nom de fichier
-                $fichier = md5(uniqid()) . '.' . $image->guessExtension();             
-                }
+                    $fichier = md5(uniqid()) . '.' . $image->guessExtension();
+               
                 // On copie le fichier dans le dossier uploads
                 $image->move(
                     $this->getParameter('images_directory'),
                     $fichier
                 );
                 // On stocke le nom de l'image dans la BDD
-                    $img = new Images();
-                    $img->setName($fichier);
-                    $ad->addImages2($img);
+                $img = new Images();
+                $img->setName($fichier);
+                $ad->addImages2($img);
+                }
             }
-
-
-
-
 
             //foreach($ad->getImages() as $image) {
             //    $image->setAd($ad);
@@ -216,7 +211,8 @@ class AdController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function delete(Ad $ad, EntityManagerInterface $manager) {
+    public function delete(Ad $ad, EntityManagerInterface $manager)
+    {
         $manager->remove($ad);
         $manager->flush();
 
@@ -229,7 +225,7 @@ class AdController extends AbstractController
     }
 
 
-        /**
+    /**
      * Permet d'effacer l'image de profil
      * @Route("/supprime/ad_image/{id}", name="ad_delete_image", methods={"DELETE", "GET"})
      * 
@@ -237,13 +233,13 @@ class AdController extends AbstractController
     public function deletePicture(Images $image, Request $request)
     {
         $data = json_decode($request->getContent(), true);
-
+        
         // On vérifie si le token est valide
-        if($this->isCsrfTokenValid('delete'.$image->getId(), $data['_token'])){
+        if ($this->isCsrfTokenValid('delete' . $image->getId(), $data['_token'])) {
             // On vérifie le nom de l'image
             $nom = $image->getName();
             // On supprime le fichier
-            unlink($this->getParameter('images_directory').'/'.$nom);
+            unlink($this->getParameter('images_directory') . '/' . $nom);
 
             // On supprime l'entrée de la BDD
             $em = $this->getDoctrine()->getManager();
@@ -251,10 +247,9 @@ class AdController extends AbstractController
             $em->flush();
 
             // On répond en json
-            return new JsonResponse(['success' => 1]);       
-        }else{
+            return new JsonResponse(['success' => 1]);
+        } else {
             return new JsonResponse(['error' => 'Token Invalide'], 400);
         }
     }
 }
-

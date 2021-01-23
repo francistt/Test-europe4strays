@@ -71,6 +71,7 @@ class AccountController extends AbstractController
 
             // On récupère l'image transmise
             $picture = $form->get('picture')->getData();
+            if($picture){
             // On génère un nom de fichier
             $fichier = md5(uniqid()) . '.' . $picture->guessExtension();
             // On copie le fichier dans le dossier uploads
@@ -80,6 +81,7 @@ class AccountController extends AbstractController
             );
             // On stocke le nom de l'image dans la BDD
             $user->setPicture($fichier);
+            }
 
             $manager->persist($user);
             $manager->flush();
@@ -221,6 +223,7 @@ class AccountController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $data['_token'])) {
             // On vérifie le nom de l'image
             $nom = $user->getPicture();
+           
             // On supprime le fichier
             unlink($this->getParameter('images_directory') . '/' . $nom);
 

@@ -38,6 +38,7 @@ class RegistrationType extends AbstractType
             ->add('picture',  FileType::class, [
                 'label' => "Photo de profil",
                 'mapped' => false,
+                'required' => false
             ])
             ->add('password', PasswordType::class, [
                 'label' => "Mot de passe",

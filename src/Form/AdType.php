@@ -3,22 +3,23 @@
 namespace App\Form;
 
 use App\Entity\Ad;
-use App\Form\ImageType;
+use App\Form\ImagesType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class AdType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    { 
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom :',
@@ -72,22 +73,34 @@ class AdType extends AbstractType
                     'placeholder' => "Décrivez le en détail"
                 ]
             ])
-            ->add('coverImage',  FileType::class, [
+
+            ->add('images', CollectionType::class, [
+               'entry_type' => ImagesType::class,
+               'entry_options' => ['label' => false],
+               'allow_add' => true,
+               'allow_delete' => true,
+               'by_reference' => false
+            ]);
+            
+            // ->add('images2', FileType::class, [
+            //     'label' => false,
+            //     'mapped' => false,
+            //     'required' => false
+            // ]);
+
+
+        $preSetData = function (FormEvent $event) {
+            $form = $event->getForm();
+            $data = $event->getData();
+
+            $form->add('coverImage',  FileType::class, [
                 'label' => "Image principale",
                 'mapped' => false,
-                'required' => false,
-            ])
-            ->add('images', CollectionType::class, [
-                'entry_type' => ImageType::class,
-                'allow_add' => true,
-                'allow_delete' => true
-            ])
-            ->add('images2', FileType::class, [
-                'label' => false,
-                'multiple' => true,
-                'mapped' => false,
-                'required' => false
+                'required' => $data->getCoverImage() ? false : true,
             ]);
+        };
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, $preSetData);
     }
 
     public function configureOptions(OptionsResolver $resolver)

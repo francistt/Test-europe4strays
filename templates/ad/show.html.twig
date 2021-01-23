@@ -28,11 +28,7 @@
 		<div class="row">
 			<div class="col-md-8 mb-3">
 				<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-					<ol class="carousel-indicators">
-						{% for image in ad.images %}
-							<li data-target="#carouselExampleIndicators" data-slide-to="{{ loop.index0 }}" {% if loop.first %} class="active" {% endif %}></li>
-						{% endfor %}
-					</ol>
+
 					<div class="carousel-inner">
 						{% for image in ad.images2 %}
 							<div class="carousel-item {% if loop.first %}active{% endif %}">
@@ -63,15 +59,17 @@
 					<h3>Famille d'accueil</h3>
 					<hr>
 					<div class="row">
-						{% if a.picture != null %}
-							<div class="col-4 mt-3">
-								<div>
+						<div class="col-4 mt-3">
+							<div>
+								{% if a.picture != null %}
 									<a href="{{ path('user_show', {'slug': a.slug}) }}">
 										<img src="{{ asset('/uploads/' ~ a.picture) }}" class="avatar avatar-medium" alt="Avatar de {{a.fullName}}">
-									</a>
-								</div>
+									{% else %}
+										<img src="{{ asset('/assets/img/avatar.svg') }}" class="avatar avatar-medium" alt="Avatar de {{a.fullName}}">
+									{% endif %}
+								</a>
 							</div>
-						{% endif %}
+						</div>
 						<div class="col mt-3">
 							<div>
 								<a href="{{ path('user_show', {'slug': a.slug}) }}">

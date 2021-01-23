@@ -13,6 +13,11 @@ class Page
     const PAGE1 = "page1";
     const PAGE2 = "page2";
     const PAGE3 = "page3";
+    const TYPES = [
+        "page1",
+        "page2",
+        "page3",
+    ];
 
     /**
      * @ORM\Id
@@ -54,6 +59,11 @@ class Page
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getTypePage(): ?string
+    {
+        return self::TYPES[$this->type];
     }
 
     public function getTitle(): ?string

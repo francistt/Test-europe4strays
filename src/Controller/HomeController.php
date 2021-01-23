@@ -41,9 +41,9 @@ class HomeController extends AbstractController {
     public function list(AdRepository $adRepo){
 
         $pages = $this->entityManager->getRepository(Page::class)->findAll();
-        //dd($pages);
+        
         return $this->render(
-            'partials/header.html.twig',
+            'partials/list.html.twig',
             [
                 'pages' => $pages,
             ]
@@ -51,52 +51,16 @@ class HomeController extends AbstractController {
     }
 
     /**
-    * @Route("/page1", name="page1")
+    * @Route("/{type}", name="page")
     *
     * @return void
     */
-    public function page1()
+    public function page(Page $page)
     {
-        $type = Page::PAGE1;
-        $page1 = $this->entityManager->getRepository(Page::class)->findBy(['type' => $type]);
         return $this->render(
-            "pages/$type.html.twig",
+            "page.html.twig",
             [
-                'page1' => $page1
-            ]
-        );
-    }
-
-    /**
-     * @Route("/page2", name="page2")
-     *
-     * @return void
-     */
-    public function page2()
-    {
-        $type = Page::PAGE2;
-        $page2 = $this->entityManager->getRepository(Page::class)->findBy(['type' => $type]);
-        return $this->render(
-            "pages/$type.html.twig",
-            [
-                'page2' => $page2
-            ]
-        );
-    }
-
-    /**
-     * @Route("/page3", name="page3")
-     *
-     * @return void
-     */
-    public function page3()
-    {
-        $type = Page::PAGE3;
-        $page3 = $this->entityManager->getRepository(Page::class)->findBy(['type' => $type]);
-        return $this->render(
-            "pages/$type.html.twig",
-            [
-                'page3' => $page3
+                'page' => $page
             ]
         );
     }

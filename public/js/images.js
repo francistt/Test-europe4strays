@@ -1,4 +1,4 @@
-window.onload = () => {
+$(document).ready(function() {
 
     $('.file-select-button').click(function(){
         $(this).closest('.upload-image-strip').find('input').click();
@@ -19,15 +19,10 @@ window.onload = () => {
     });
 
 
-
-    // Gestion du bouton "supprimer"
-    let links = document.querySelector("[data-delete]")
-   
-   
     // On va écouter le clic
-    links.addEventListener("click", function(e){
+    $("[data-delete]").on('click', function(e){
          // On empêche la navigation
-         e.preventDefault()
+         e.preventDefault();
 
          // On demande confirmation
          if(confirm("voulez-vous supprimer cette image ?")){
@@ -52,4 +47,4 @@ window.onload = () => {
     });
 
     
-}
+});

@@ -34,7 +34,6 @@ class UserCrudController extends AbstractCrudController
             TextField::new('introduction'),
             TextEditorField::new('description'),
             AssociationField::new('ads', "Nombres d'annonces"),
-            Textfield::new('password')
         ];
     }
     
