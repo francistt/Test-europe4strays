@@ -99,8 +99,20 @@ class AdType extends AbstractType
                 'required' => $data->getCoverImage() ? false : true,
             ]);
         };
+        $postSubmit = function (FormEvent $event) {
+           
+            $data = $event->getData();
+
+            foreach($data->getImages() as $key => $d) {
+                if ($d->getNameFile()  === null) {
+                    unset($data->getImages()[$key]);
+                }
+            }
+        };
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, $preSetData);
+
+        $builder->addEventListener(FormEvents::POST_SUBMIT, $postSubmit);
     }
 
     public function configureOptions(OptionsResolver $resolver)

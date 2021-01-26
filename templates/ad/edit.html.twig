@@ -3,7 +3,7 @@
 {% block title %}Edition d'une annonce
 {% endblock %}
 
-{% form_theme form 'ad/_collection.html.twig' %}
+{#{% form_theme form 'ad/_collection.html.twig' %}#}
 
 {% block content %}
 
@@ -59,17 +59,31 @@
 							{{ form_row(form.coverImage, {'label': ' '}) }}
 						</div>
 
-						{{ form_row(form.images2) }}
+						 <div class="element" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}"></div>
+						<button type="button" class="add_item_link btn btn-primary" data-collection-holder-class="element">Ajouter une image</button>
+						
+							{#{% for key,productImageForm in form.images %}
+								{{ form_widget(productImageForm) }}
+
+							{% endfor %}#}
+						{% for image in ad.images %}
+							<div class="d-flex">
+								<img src="{{ vich_uploader_asset(image, 'nameFile') }}" class="d-block w-100" alt="Firstslide">
+								<div class="js-delete" data-id="{{ image.id }}">
+									<span class="fas fa-trash"></span>
+								</div>
+							</div>
+						{% endfor %}
 					
 
-						{% for image in ad.images2 %}
+						{#{% for image in ad.images2 %}
 							<div class="image mb-2">
 								<img src="{{ asset('/uploads/' ~ image.name) }}" alt="Image" width="100">
 								<a href="{{ path('ad_delete_image', {'id': image.id}) }}" data-delete data-token="{{ csrf_token('delete' ~ image.id) }}">
 									<i class="fas fa-trash fa-2x"></i>
 								</a>
 							</div>
-						{% endfor %}
+						{% endfor %}#}
 
 
 					</div>
@@ -92,4 +106,85 @@
 
 	<script src="/js/ad.js"></script>
 	<script src="{{ asset('js/images.js') }}"></script>
+	<script>
+		jQuery(document).ready(function() {
+			// Get the ul that holds the collection of tags
+			var $tagsCollectionHolder = $('div.element');
+			// add a delete link to all of the existing tag form li elements
+			$tagsCollectionHolder.find('div.subform').each(function() {
+				addImageFormDeleteLink($(this));
+			});
+			// count the current form inputs we have (e.g. 2), use that as the new
+			// index when inserting a new item (e.g. 2)
+			$tagsCollectionHolder.data('index', $tagsCollectionHolder.find('input').length);
+
+			$('body').on('click', '.add_item_link', function(e) {
+				var $collectionHolderClass = $(e.currentTarget).data('collectionHolderClass'); // 'element'
+				// add a new tag form (see next code block)
+				addFormToCollection($collectionHolderClass);
+			})
+			function addFormToCollection($collectionHolderClass) {
+				// Get the ul that holds the collection of tags
+				var $collectionHolder = $('.' + $collectionHolderClass); // $('.element')
+
+				// Get the data-prototype explained earlier
+				var prototype = $collectionHolder.data('prototype'); // form_widget(form.images.vars.prototype)
+
+				// get the new index
+				var index = $collectionHolder.data('index'); // 1 ça va s'incrementer
+
+				var newForm = prototype;
+				// You need this only if you didn't set 'label' => false in your tags field in TaskType
+				// Replace '__name__label__' in the prototype's HTML to
+				// instead be a number based on how many items we have
+				// newForm = newForm.replace(/__name__label__/g, index);
+
+				// Replace '__name__' in the prototype's HTML to
+				// instead be a number based on how many items we have
+				newForm = newForm.replace(/__name__/g, index);
+
+				// increase the index with one for the next item
+				$collectionHolder.data('index', index + 1);
+
+				// Display the form in the page in an li, before the "Add a tag" link li
+				var $newFormLi = $('<div class="subform"></div>').append(newForm);
+				// Add the new form at the end of the list
+				$collectionHolder.append($newFormLi);
+
+				 // add a delete link to the new form
+    			addImageFormDeleteLink($newFormLi);
+			}
+			function addImageFormDeleteLink($imageFormDiv) {
+				var $removeFormButton = $('<button type="button" class="btn btn-warning"><i class="fas fa-trash"></i></button>');
+				$imageFormDiv.append($removeFormButton);
+
+				$removeFormButton.on('click', function(e) {
+					// remove the li for the tag form
+					$imageFormDiv.remove();
+				});
+			}
+
+				$('.js-delete').on('click', function() {
+					let imageId = $(this).data('id');
+
+						// requete ajax
+						$.ajax({
+						type: 'POST',
+						url: '/supprime/image/ad/effacer',
+						data: {'image_id': imageId},
+						success: function(data) {
+							if (data.success) {
+								$('.js-delete').closest('.d-flex').remove();
+							} else {
+								$('.js-delete').closest('.d-flex').append('<div class="alert alert-danger">Cant delete image</div>');
+							}
+						},
+						error: function(data) {
+							$('.js-delete').closest('.d-flex').append('<div class="alert alert-danger">Une erreur est survenue</div>')
+						}
+						});
+				});
+		});
+
+	</script>
 {% endblock %}

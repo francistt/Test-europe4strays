@@ -44,8 +44,6 @@
 						<h3 class="card-title">Images de l'annonce</h3>
 					</div>
 					<div class="alert alert-light">
-
-
 						<div class="upload-image-strip">
 							<button type="button" class="file-select-button btn btn-info">
 								<i class="fas fa-upload"></i>
@@ -54,9 +52,8 @@
 							</button>
 							{{ form_row(form.coverImage, {'label': ' '}) }}	
 						</div>
-						<div class="element" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}"></div>
-						<button type="button" class="add_item_link btn btn-primary" data-collection-holder-class="element">Ajouter une image</button>
-
+						<div class="ad_images" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}"></div>
+						<button type="button" class="add_item_link btn btn-primary"  id="add-image" data-collection-holder-class="ad_images">Ajouter une image</button>
 					</div>
 				</div>
 				<div class="alert alert-success mt-3">
@@ -81,7 +78,7 @@
 	<script>
 		jQuery(document).ready(function() {
 			// Get the ul that holds the collection of tags
-			var $tagsCollectionHolder = $('div.element');
+			var $tagsCollectionHolder = $('div.ad_images');
 			// add a delete link to all of the existing tag form li elements
 			$tagsCollectionHolder.find('div.subform').each(function() {
 				addImageFormDeleteLink($(this));
@@ -136,6 +133,22 @@
 				});
 			}
 
+
+//			$('#add-image').click(function(){
+//				// Je récupère le numéro des futurs champs que je vais créer
+//				const index = +$('#widgets-counter').val();
+//
+//				// Je récupère le prototype des entrées
+//				const tmpl = $('#ad_images').data('prototype').replace(/__name__/g, index);
+//
+//				// J'inject ce code au sein de la div
+//				$('#ad_images').append(tmpl);
+//
+//				$('#widgets-counter').val(index + 1);
+//
+//				// Je gère le bouton supprimer
+//				handleDeleteButtons();
+//			});
 
 		});
 

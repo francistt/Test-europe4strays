@@ -3,13 +3,17 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Ad;
+use App\Form\ImagesType;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class AdCrudController extends AbstractCrudController
 {
@@ -41,7 +45,23 @@ class AdCrudController extends AbstractCrudController
             TextField::new('city', 'Ville'),
             TextField::new('introduction'),
             TextEditorField::new('content', 'Contenu'),
-            AssociationField::new('images2', 'Autre images')
+            CollectionField::new('images', 'Autre images')
+                ->setEntryType(ImagesType::class)
+                ->setFormTypeOption('by_reference', false)
+                ->onlyOnForms()
         ];
+
+        if ($pageName == Crud::PAGE_DETAIL) {
+            return [
+                CollectionField::new('images', 'Autre images')
+                    ->setTemplatePath('images.html.twig')
+                    ->onlyOnDetail()
+            ];
+        }
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions->add(Crud::PAGE_INDEX, 'detail');
     }
 }

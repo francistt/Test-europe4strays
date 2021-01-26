@@ -30,9 +30,10 @@
 				<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 
 					<div class="carousel-inner">
-						{% for image in ad.images2 %}
+						{% for image in ad.images %}
 							<div class="carousel-item {% if loop.first %}active{% endif %}">
-								<img src="{{ asset('/uploads/' ~ image.name) }}" class="d-block w-100" alt="Firstslide">
+							<img src="{{ vich_uploader_asset(image, 'nameFile') }}" class="d-block w-100" alt="Firstslide">
+						
 								<div class="carousel-caption d-none d-md-block">
 									<h2>{{ ad.name }}</h2>
 								</div>

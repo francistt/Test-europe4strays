@@ -6,6 +6,7 @@ use App\Entity\Ad;
 use App\Form\AdType;
 use App\Entity\Images;
 use App\Repository\AdRepository;
+use App\Repository\ImagesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,6 +48,11 @@ class AdController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $images = $ad->getImages();
+            foreach($images as $key => $image){
+                $image->setAnnonce($ad);
+                $images->set($key,$image);
+            }
             // On récupère l'image transmise
             $picture = $form->get('coverImage')->getData();
             // On génère un nom de fichier
@@ -59,9 +65,9 @@ class AdController extends AbstractController
             // On stocke le nom de l'image dans la BDD
             $ad->setCoverImage($fichier);
 
-            foreach($ad->getImages() as $key => $image) {
-                $image->setName($this->getUser()->getId() .$key) ;
-            }
+            // foreach($ad->getImages() as $key => $image) {
+            //     $image->setName($this->getUser()->getId() .$key) ;
+            // }
 
 
        
@@ -122,11 +128,20 @@ class AdController extends AbstractController
     {
 
         $form = $this->createForm(AdType::class, $ad);
-
+        $imagesOld =$ad->getImages()->toArray();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+dd($form->get('images')->getData()->toArray());
+            $imagesNew = $ad->getImages()->toArray();
+            $images = array_merge($imagesNew, $imagesOld);
+            
+            foreach($images as $key => $image){
+                $image->setAnnonce($ad);
+                $ad->addImage($image);
+            } 
+                  
+            
             // On récupère l'image transmise
             $picture = $form->get('coverImage')->getData();
 
@@ -143,25 +158,25 @@ class AdController extends AbstractController
             }
 
             // On récupère l'image transmise
-            $images = $form->get('images2')->getData();
+            // $images = $form->get('images2')->getData();
 
-            if ($images) {
-                // On boucle sur les images
-                foreach ($images as $image) {
-                    // On génère un nom de fichier
-                    $fichier = md5(uniqid()) . '.' . $image->guessExtension();
+            // if ($images) {
+            //     // On boucle sur les images
+            //     foreach ($images as $image) {
+            //         // On génère un nom de fichier
+            //         $fichier = md5(uniqid()) . '.' . $image->guessExtension();
                
-                // On copie le fichier dans le dossier uploads
-                $image->move(
-                    $this->getParameter('images_directory'),
-                    $fichier
-                );
-                // On stocke le nom de l'image dans la BDD
-                $img = new Images();
-                $img->setName($fichier);
-                $ad->addImages2($img);
-                }
-            }
+            //     // On copie le fichier dans le dossier uploads
+            //     $image->move(
+            //         $this->getParameter('images_directory'),
+            //         $fichier
+            //     );
+            //     // On stocke le nom de l'image dans la BDD
+            //     $img = new Images();
+            //     $img->setName($fichier);
+            //     $ad->addImages2($img);
+            //     }
+            // }
 
             //foreach($ad->getImages() as $image) {
             //    $image->setAd($ad);
@@ -251,5 +266,27 @@ class AdController extends AbstractController
         } else {
             return new JsonResponse(['error' => 'Token Invalide'], 400);
         }
+    }
+
+     /**
+     * Permet d'effacer l'image de profil
+     * @Route("/supprime/image/ad/effacer", name="ad_delete_image_effacer", methods={"POST"})
+     * 
+     */
+    public function deleteImage(Request $request, ImagesRepository $imagesRepository)
+    {
+        $imageId = $request->get('image_id');
+        if ($imageId && $image = $imagesRepository->find($imageId)) {
+            // On supprime l'entrée de la BDD
+        
+            $em = $this->getDoctrine()->getManager();
+            $image->setAnnonce(null);
+            $em->remove($image);
+            $em->flush();
+
+            // On répond en json
+            return new JsonResponse(['success' => 1]);
+        }
+        return new JsonResponse(['success' => 0]);
     }
 }
