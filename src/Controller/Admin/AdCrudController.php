@@ -50,18 +50,5 @@ class AdCrudController extends AbstractCrudController
                 ->setFormTypeOption('by_reference', false)
                 ->onlyOnForms()
         ];
-
-        if ($pageName == Crud::PAGE_DETAIL) {
-            return [
-                CollectionField::new('images', 'Autre images')
-                    ->setTemplatePath('images.html.twig')
-                    ->onlyOnDetail()
-            ];
-        }
-    }
-
-    public function configureActions(Actions $actions): Actions
-    {
-        return $actions->add(Crud::PAGE_INDEX, 'detail');
-    }
+    } 
 }

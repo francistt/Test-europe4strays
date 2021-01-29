@@ -81,13 +81,6 @@ class AdType extends AbstractType
                'allow_delete' => true,
                'by_reference' => false
             ]);
-            
-            // ->add('images2', FileType::class, [
-            //     'label' => false,
-            //     'mapped' => false,
-            //     'required' => false
-            // ]);
-
 
         $preSetData = function (FormEvent $event) {
             $form = $event->getForm();

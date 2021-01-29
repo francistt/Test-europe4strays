@@ -29,7 +29,7 @@ class Mail
                 [
                     'From' => [
                         'Email' => "europe4strays@nevertoolate.fr",
-                        'Name' => "Europ4strays"
+                        'Name' => "Europe4strays"
                     ],
                     'To' => [
                         [

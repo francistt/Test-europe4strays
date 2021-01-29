@@ -27,9 +27,7 @@ class ImagesType extends AbstractType
                     'width' => '50px',
                     'height' => '50px'      
                 ]
-            ]);
-        
-         
+            ]);      
     }
 
     public function configureOptions(OptionsResolver $resolver)

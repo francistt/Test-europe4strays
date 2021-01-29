@@ -128,20 +128,26 @@ class AdController extends AbstractController
     {
 
         $form = $this->createForm(AdType::class, $ad);
-        $imagesOld =$ad->getImages()->toArray();
+       // $imagesOld =$ad->getImages()->toArray();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-dd($form->get('images')->getData()->toArray());
-            $imagesNew = $ad->getImages()->toArray();
-            $images = array_merge($imagesNew, $imagesOld);
+//dd($form->get('images')->getData()->toArray());
+           /* $imagesNew = $ad->getImages()->toArray();
+            $images = array_merge($imagesNew, $imagesOld);*/
             
-            foreach($images as $key => $image){
-                $image->setAnnonce($ad);
-                $ad->addImage($image);
+            foreach($form->get('images')->getData() as $key => $image){
+                if ($image->getNameFile()  === null) {
+                    $ad->removeImage($image);
+                } else {
+                    $image->setAnnonce($ad);
+                    $manager->persist($image);
+                    $manager->flush();
+                    $ad->addImage($image);
+                }
+
             } 
                   
-            
             // On récupère l'image transmise
             $picture = $form->get('coverImage')->getData();
 

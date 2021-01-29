@@ -88,7 +88,7 @@ class AccountController extends AbstractController
 
             // Envoyer un email au client pour lui confirmer son inscription
             $mail = new Mail();
-            $content = "Bonjour ".$user->getFirstName()."<br/>Bienvenue sur Europe4Strays<br><br/>Nous vous confirmons votre inscription";
+            $content = "Bonjour ".$user->getFirstName()."<br><br/>Bienvenue sur Europe4Strays<br><br/>Nous vous confirmons votre inscription";
             $mail->send($user->getEmail(), $user->getFirstName(), 'Bienvenue sur Europe4strays', $content);
 
             $this->addFlash(

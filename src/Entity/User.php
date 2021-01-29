@@ -36,6 +36,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex(pattern="/^[a-zA-Z0-9\-]+$/")
      * @Assert\NotBlank(message="Vous devez renseigner votre nom de famille")
      */
     private $lastName;

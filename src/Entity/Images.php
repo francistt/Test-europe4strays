@@ -22,13 +22,14 @@ class Images
     private $id;
 
     /**
+     * @var string|null
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
      * @Vich\UploadableField(mapping="post_images", fileNameProperty="name")
-     * @var File
+     * @var File|null
      */
     private $nameFile;
 

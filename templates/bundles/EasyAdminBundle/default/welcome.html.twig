@@ -1,0 +1,25 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_title 'Tableau de bord' %}
+
+{% block page_content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-6 alert-info">
+				<span class="display-3">{{ countAllUser }}</span>
+				utilisateurs
+			</div>
+			<div class="col-6 alert-success">
+				<span class="display-3">{{ countAllAd }}</span>
+				annonces
+			</div>
+		</div>
+		<h3 class="h3 my-3">Les dernières annonces</h3>
+		<div class="row">
+			{% for data in ads %}
+				{% include 'ad/_ad.html.twig' with {'ad' : data.annonce} %}
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

@@ -3,6 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Page;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -21,11 +24,11 @@ class PageCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            ChoiceField::new('type', 'Type de la page')->setChoices([
-                "page 1",
-                "page 2",
-                "Page::PAGE3"
-            ]),
+            // ChoiceField::new('type', 'Type de la page')->setChoices([
+            //     "page 1",
+            //     "page 2",
+            //     "Page::PAGE3"
+            // ]),
             TextField::new('title', 'Titre de la page'),
             TextEditorField::new('content', 'Contenu de la page'),
             ImageField::new('illustration')
@@ -36,5 +39,12 @@ class PageCrudController extends AbstractCrudController
             TextareaField::new('btnTitle', 'Titre du bouton'),
             TextareaField::new('btnUrl', 'Url de destination du bouton'),
         ];
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->remove(Crud::PAGE_INDEX, Action::NEW)
+            ->remove(Crud::PAGE_INDEX, Action::DELETE);
     }
 }

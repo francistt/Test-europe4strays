@@ -3,6 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
@@ -35,6 +38,11 @@ class UserCrudController extends AbstractCrudController
             TextEditorField::new('description'),
             AssociationField::new('ads', "Nombres d'annonces"),
         ];
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions->remove(Crud::PAGE_INDEX, Action::NEW);
     }
     
 }
