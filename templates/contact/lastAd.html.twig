@@ -1,0 +1,8 @@
+<h2 class="h1 my-5">Dernière annonce de {{ ad.author.firstName }} {{ ad.author.lastName }}</h2><br>
+<hr>
+<br>
+<div class="row">
+    {% for data in ads %}
+        {% include 'ad/_ad.html.twig' with {'ad' : data.annonce} %}
+    {% endfor %}
+</div>

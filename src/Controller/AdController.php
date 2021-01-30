@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Ad;
 use App\Form\AdType;
+use App\Service\Mail;
 use App\Entity\Images;
 use App\Repository\AdRepository;
 use App\Repository\ImagesRepository;
@@ -38,7 +39,7 @@ class AdController extends AbstractController
      *
      * @return Response
      */
-    public function create(Request $request, EntityManagerInterface $manager)
+    public function create(Request $request, EntityManagerInterface $manager, AdRepository $adRepo)
     {
         $ad = new Ad();
 
@@ -47,7 +48,7 @@ class AdController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            
             $images = $ad->getImages();
             foreach($images as $key => $image){
                 $image->setAnnonce($ad);
@@ -97,9 +98,17 @@ class AdController extends AbstractController
             //}
 
             $ad->setAuthor($this->getUser());
-
+          
             $manager->persist($ad);
             $manager->flush();
+            
+            // On envoi un email à l'administrateur à chaque nouvelle annonce
+            // $content = $this->renderview('contact/lastAd.html.twig', [
+            //     'ad' => $ad,
+            //     'ads' => $adRepo->findLastAds(1)
+            // ]);
+            // $mail = new Mail();
+            // $mail->send('europe4strays@nevertoolate.fr', 'Europe4strays', 'Une nouvelle annonce a été publié', $content);
 
             $this->addFlash(
                 'success',
@@ -128,11 +137,11 @@ class AdController extends AbstractController
     {
 
         $form = $this->createForm(AdType::class, $ad);
-       // $imagesOld =$ad->getImages()->toArray();
+        //$imagesOld =$ad->getImages()->toArray();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-//dd($form->get('images')->getData()->toArray());
+//dd($form->get('images')->getData()->toArray(),$imagesOld);
            /* $imagesNew = $ad->getImages()->toArray();
             $images = array_merge($imagesNew, $imagesOld);*/
             

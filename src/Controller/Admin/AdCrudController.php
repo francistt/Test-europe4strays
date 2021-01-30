@@ -4,8 +4,9 @@ namespace App\Controller\Admin;
 
 use App\Entity\Ad;
 use App\Form\ImagesType;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -51,4 +52,9 @@ class AdCrudController extends AbstractCrudController
                 ->onlyOnForms()
         ];
     } 
+
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions->remove(Crud::PAGE_INDEX, Action::NEW);
+    }
 }

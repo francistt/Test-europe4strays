@@ -59,25 +59,24 @@
 							{{ form_row(form.coverImage, {'label': ' '}) }}
 						</div>
 
+						{% for image in ad.images %}
+						<div class="row">
+							<div class="col-10 mb-3">
+								<div class="d-flex" id="{{ image.id }}">
+									<img src="{{ vich_uploader_asset(image, 'nameFile') }}" class="d-block w-100" alt="Firstslide">
+								</div>
+							</div>
+							<div class="col-2">	
+								<div class="js-delete" data-id="{{ image.id }}">
+									<span class="btn btn-danger">X</span>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					
 						 <input type="hidden" id="widgets-counter" value="0">
 						 <div class="element" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}"></div>
 						<button type="button" class="add_item_link btn btn-primary"  id="add-image" data-collection-holder-class="element">Ajouter une image</button>
-						
-							{#{% for key,productImageForm in form.images %}
-								{{ form_widget(productImageForm) }}
-
-							{% endfor %}#}
-						{% for image in ad.images %}
-							<div class="d-flex" id="{{ image.id }}">
-								<img src="{{ vich_uploader_asset(image, 'nameFile') }}" class="d-block w-100" alt="Firstslide">
-								<div class="js-delete" data-id="{{ image.id }}">
-									<span class="fas fa-trash"></span>
-								</div>
-							</div>
-						{% endfor %}
-					
-
-
 					</div>
 				</div>
 				<div class="alert alert-success mt-3">
@@ -160,12 +159,12 @@
 			}
 
             function updateCounter() {
-			const count = $('.subform').length;
+			const count = +$('.subform').length;
 
 			$('#widgets-counter').val(count);
 			}
 			 function decrementeCounter() {
-			const count = $('.subform').length - 1;
+			const count = +$('.subform').length - 1;
 
 			$('#widgets-counter').val(count);
 			}

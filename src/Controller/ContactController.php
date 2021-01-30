@@ -24,8 +24,12 @@ class ContactController extends AbstractController
                 'Merci de nous avoir contacté, nous allons vous répondre dans les meilleurs délais.'
             );
 
+            // On envoi le message
+            $content = $this->renderview('contact/message.html.twig', [
+                'form' => $form->getData()
+            ]);
             $mail = new Mail();
-            $mail->send('europe4strays@nevertoolate.fr', 'Europe4strays', 'Vous avez reçu une nouvelle demande de contact', $form->getData());
+            $mail->send('europe4strays@nevertoolate.fr', 'Europe4strays', 'Vous avez reçu une nouveau message', $content);
         }
 
         return $this->render('contact/index.html.twig', [

@@ -1,3 +1,5 @@
 form:
     label:
-        delete: 'Supprimer'
+        Browse: 'Rechercher'
+        delete: ''
+    

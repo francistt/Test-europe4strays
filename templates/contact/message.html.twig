@@ -1,0 +1,17 @@
+<h3>Nouveau message de {{ form.prenom }} {{ form.nom }}</h3>
+
+{% block content %}
+  <div class="card text-white bg-primary mb-6 mt-4">           
+    <hr>
+    <p class="lead ml-3 mt-3">
+     {{ form.content|raw }}
+    </p>
+    <br>
+    <hr>
+    <br/>
+    répondre : {{ form.email }}
+    <br>
+    <hr>
+    <br>
+  </div> 
+{% endblock %}

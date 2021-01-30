@@ -4,8 +4,21 @@ liip_imagine:
     driver: "gd"
     filter_sets:
         thumb:
-            quality: 75
+            quality: 100
             filters:
                 thumbnail:
-                    size:           [360, 230]
-                    mode:           outbound
+                    size: [150, 100]
+                    mode: outbound
+        echelle:
+            quality: 100
+            filters:
+                scale:
+                    dim: [250, 250]
+        ad:
+            quality: 100
+            filters:
+                upscale:   
+                    min: [360, 230]
+                thumbnail:
+                    size: [360, 230]
+                    mode: outbound              
