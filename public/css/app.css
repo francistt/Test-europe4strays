@@ -115,8 +115,8 @@ span.rating i {
     color: #ff7851;
 }
 
-.custom-file label {
-    display: all;
+.upload-image-strip .custom-file-label {
+    display: none;
 }
   
 .custom-file-input:lang(fr) ~ .custom-file-label::after {

@@ -1,10 +1,10 @@
 $(document).ready(function() {
 
-    $('.file-select-button').click(function(){
+    $('body').on('click', '.file-select-button', function(){
         $(this).closest('.upload-image-strip').find('input').click();
     });
     
-    $('.upload-image-strip input').on('change', function (e) {
+    $('body').on('change', '.upload-image-strip input', function (e) {
         let filename = e.target.value.split('\\').pop();
         let nf = $(this).closest('.upload-image-strip').find('.name-file');
     

@@ -66,37 +66,6 @@ class AdController extends AbstractController
             // On stocke le nom de l'image dans la BDD
             $ad->setCoverImage($fichier);
 
-            // foreach($ad->getImages() as $key => $image) {
-            //     $image->setName($this->getUser()->getId() .$key) ;
-            // }
-
-
-       
-
-            // if ($images) {
-            //     // On boucle sur les images
-            //     foreach ($images as $image) {
-            //         // On génère un nom de fichier
-            //         $fichier = md5(uniqid()) . '.' . $image->guessExtension();
-
-            //         // On copie le fichier dans le dossier uploads
-            //         $image->move(
-            //             $this->getParameter('images_directory'),
-            //             $fichier
-            //         );
-            //         // On stocke le nom de l'image dans la BDD
-            //         $img = new Images();
-            //         $img->setName($fichier);
-            //         $ad->addImages2($img);
-            //         $manager->persist($img);
-            //     }
-            // }
-
-            //foreach($ad->getImages() as $image) {
-            //    $image->setAd($ad);
-            //    $manager->persist($image);
-            //}
-
             $ad->setAuthor($this->getUser());
           
             $manager->persist($ad);
@@ -137,24 +106,20 @@ class AdController extends AbstractController
     {
 
         $form = $this->createForm(AdType::class, $ad);
-        //$imagesOld =$ad->getImages()->toArray();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-//dd($form->get('images')->getData()->toArray(),$imagesOld);
-           /* $imagesNew = $ad->getImages()->toArray();
-            $images = array_merge($imagesNew, $imagesOld);*/
+//  dd($form->get('images')->getData()->toArray());
             
             foreach($form->get('images')->getData() as $key => $image){
-                if ($image->getNameFile()  === null) {
+                if ($image->getNameFile()  === null && $image->getName() === null) {
                     $ad->removeImage($image);
                 } else {
                     $image->setAnnonce($ad);
+                    $ad->addImage($image);
                     $manager->persist($image);
                     $manager->flush();
-                    $ad->addImage($image);
                 }
-
             } 
                   
             // On récupère l'image transmise
@@ -171,32 +136,6 @@ class AdController extends AbstractController
                 // On stocke le nom de l'image dans la BDD
                 $ad->setCoverImage($fichier);
             }
-
-            // On récupère l'image transmise
-            // $images = $form->get('images2')->getData();
-
-            // if ($images) {
-            //     // On boucle sur les images
-            //     foreach ($images as $image) {
-            //         // On génère un nom de fichier
-            //         $fichier = md5(uniqid()) . '.' . $image->guessExtension();
-               
-            //     // On copie le fichier dans le dossier uploads
-            //     $image->move(
-            //         $this->getParameter('images_directory'),
-            //         $fichier
-            //     );
-            //     // On stocke le nom de l'image dans la BDD
-            //     $img = new Images();
-            //     $img->setName($fichier);
-            //     $ad->addImages2($img);
-            //     }
-            // }
-
-            //foreach($ad->getImages() as $image) {
-            //    $image->setAd($ad);
-            //    $manager->persist($image);
-            //}
 
             $manager->persist($ad);
             $manager->flush();
@@ -293,7 +232,7 @@ class AdController extends AbstractController
         $imageId = $request->get('image_id');
         if ($imageId && $image = $imagesRepository->find($imageId)) {
             // On supprime l'entrée de la BDD
-        
+    
             $em = $this->getDoctrine()->getManager();
             $image->setAnnonce(null);
             $em->remove($image);

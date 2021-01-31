@@ -83,7 +83,7 @@ class Ad
     private $author;
 
     /**
-     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="annonce", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="annonce", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $images;
 

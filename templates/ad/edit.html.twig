@@ -59,14 +59,25 @@
 							{{ form_row(form.coverImage, {'label': ' '}) }}
 						</div>
 
+						{# {% set mon_image %}
+						<div class="upload-image-strip">
+							<button type="button" class="file-select-button btn btn-info">
+								<i class="fas fa-edit"></i>
+								<span class="name-file">
+									Ajouter une image</span>
+							</button>
+							{{  form_row(form.images.vars.prototype, {'label': ' '}) }}
+						</div>
+						{% endset %} #}
+
 						{% for image in ad.images %}
-						<div class="row">
-							<div class="col-10 mb-3">
-								<div class="d-flex" id="{{ image.id }}">
+						<div class="d-flex" id="{{ image.id }}">
+							<div>
+								<div class="d-flex">
 									<img src="{{ vich_uploader_asset(image, 'nameFile') }}" class="d-block w-100" alt="Firstslide">
 								</div>
 							</div>
-							<div class="col-2">	
+							<div>	
 								<div class="js-delete" data-id="{{ image.id }}">
 									<span class="btn btn-danger">X</span>
 								</div>
@@ -74,7 +85,7 @@
 						</div>
 						{% endfor %}
 					
-						 <input type="hidden" id="widgets-counter" value="0">
+						 <input type="hidden" id="widgets-counter" value="{{ ad.images|length }}">
 						 <div class="element" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}"></div>
 						<button type="button" class="add_item_link btn btn-primary"  id="add-image" data-collection-holder-class="element">Ajouter une image</button>
 					</div>
@@ -87,7 +98,9 @@
 				</div>
 			</div>
 		</div>
-
+		<div class="">
+			{{ form_rest(form) }}
+		</div>
 		{{ form_end(form) }}
 	</div>
 
@@ -135,8 +148,6 @@
 				// instead be a number based on how many items we have
 				newForm = newForm.replace(/__name__/g, index);
 
-		
-
 				// Display the form in the page in an li, before the "Add a tag" link li
 				var $newFormLi = $('<div class="subform"></div>').append(newForm);
 				// Add the new form at the end of the list
@@ -159,7 +170,7 @@
 			}
 
             function updateCounter() {
-			const count = +$('.subform').length;
+			const count = +$('#widgets-counter').val() + 1;
 
 			$('#widgets-counter').val(count);
 			}
@@ -168,7 +179,6 @@
 
 			$('#widgets-counter').val(count);
 			}
-
 
 			$('.js-delete').on('click', function() {
 				let imageId = $(this).data('id');
@@ -191,6 +201,5 @@
 				});
 			});
 		});
-
 	</script>
 {% endblock %}
