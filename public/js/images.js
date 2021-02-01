@@ -18,7 +18,6 @@ $(document).ready(function() {
         }
     });
 
-
     // On va écouter le clic
     $("[data-delete]").on('click', function(e){
          // On empêche la navigation
@@ -45,6 +44,4 @@ $(document).ready(function() {
             }).catch(e => alert(e))
          }
     });
-
-    
 });

@@ -3,8 +3,6 @@
 {% block title %}Edition d'une annonce
 {% endblock %}
 
-{#{% form_theme form 'ad/_collection.html.twig' %}#}
-
 {% block content %}
 
 	<div class="container">
@@ -45,7 +43,6 @@
 						<h3 class="card-title">Images de l'annonce</h3>
 					</div>
 					<div class="alert alert-light">
-
 						<div>
 							<img src="{{ asset('/uploads/' ~ ad.coverImage) }}" alt="CoverImage" width="300">
 						</div>
@@ -58,26 +55,21 @@
 							</button>
 							{{ form_row(form.coverImage, {'label': ' '}) }}
 						</div>
-
-						{# {% set mon_image %}
-						<div class="upload-image-strip">
-							<button type="button" class="file-select-button btn btn-info">
-								<i class="fas fa-edit"></i>
-								<span class="name-file">
-									Ajouter une image</span>
-							</button>
-							{{  form_row(form.images.vars.prototype, {'label': ' '}) }}
-						</div>
-						{% endset %} #}
-
+					</div>
+				</div>
+				<div class="card bg-light mt-3">
+					<div class="card-header">
+						<h4 class="card-title">Images supplémentaires</h4>
+					</div>
+					<div class="alert alert-light">
 						{% for image in ad.images %}
-						<div class="d-flex" id="{{ image.id }}">
-							<div>
-								<div class="d-flex">
+						<div class="row mt-2" id="{{ image.id }}">
+							<div class="col-10">
+								<div>
 									<img src="{{ vich_uploader_asset(image, 'nameFile') }}" class="d-block w-100" alt="Firstslide">
 								</div>
 							</div>
-							<div>	
+							<div class="col-1">	
 								<div class="js-delete" data-id="{{ image.id }}">
 									<span class="btn btn-danger">X</span>
 								</div>
@@ -86,8 +78,9 @@
 						{% endfor %}
 					
 						 <input type="hidden" id="widgets-counter" value="{{ ad.images|length }}">
-						 <div class="element" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}"></div>
-						<button type="button" class="add_item_link btn btn-primary"  id="add-image" data-collection-holder-class="element">Ajouter une image</button>
+						 <div class="element" lang="fr" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
+						 </div>
+						<button type="button" class="add_item_link btn btn-primary mt-2"  id="add-image" data-collection-holder-class="element">Ajouter une image</button>
 					</div>
 				</div>
 				<div class="alert alert-success mt-3">
@@ -98,7 +91,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="">
+		<div class="d-none">
 			{{ form_rest(form) }}
 		</div>
 		{{ form_end(form) }}
@@ -108,98 +101,98 @@
 
 {% block javascripts %}
 
-	<!--<script src="/js/ad.js"></script> -->
-	<script src="{{ asset('js/images.js') }}"></script>
-	<script>
-		jQuery(document).ready(function() {
+<!--<script src="/js/ad.js"></script> -->
+<script src="{{ asset('js/images.js') }}"></script>
+<script>
+	jQuery(document).ready(function() {
+		// Get the ul that holds the collection of tags
+
+		var $tagsCollectionHolder = $('div.element');
+		// add a delete link to all of the existing tag form li elements
+		$tagsCollectionHolder.find('div.subform').each(function() {
+			addImageFormDeleteLink($(this));
+		});
+		// count the current form inputs we have (e.g. 2), use that as the new
+		// index when inserting a new item (e.g. 2)
+		$tagsCollectionHolder.data('index', $tagsCollectionHolder.find('input').length);
+
+		$('body').on('click', '.add_item_link', function(e) {
+			var $collectionHolderClass = $(e.currentTarget).data('collectionHolderClass'); // 'element'
+			// add a new tag form (see next code block)
+			addFormToCollection($collectionHolderClass);
+		})
+		function addFormToCollection($collectionHolderClass) {
 			// Get the ul that holds the collection of tags
+			var $collectionHolder = $('.' + $collectionHolderClass); // $('.element')
 
-			var $tagsCollectionHolder = $('div.element');
-			// add a delete link to all of the existing tag form li elements
-			$tagsCollectionHolder.find('div.subform').each(function() {
-				addImageFormDeleteLink($(this));
-			});
-			// count the current form inputs we have (e.g. 2), use that as the new
-			// index when inserting a new item (e.g. 2)
-			$tagsCollectionHolder.data('index', $tagsCollectionHolder.find('input').length);
+			// Get the data-prototype explained earlier
+			var prototype = $collectionHolder.data('prototype'); // form_widget(form.images.vars.prototype)
 
-			$('body').on('click', '.add_item_link', function(e) {
-				var $collectionHolderClass = $(e.currentTarget).data('collectionHolderClass'); // 'element'
-				// add a new tag form (see next code block)
-				addFormToCollection($collectionHolderClass);
-			})
-			function addFormToCollection($collectionHolderClass) {
-				// Get the ul that holds the collection of tags
-				var $collectionHolder = $('.' + $collectionHolderClass); // $('.element')
+			// get the new index
+			var index = $('#widgets-counter').val(); // 1 ça va s'incrementer
 
-				// Get the data-prototype explained earlier
-				var prototype = $collectionHolder.data('prototype'); // form_widget(form.images.vars.prototype)
+			var newForm = prototype;
+			// You need this only if you didn't set 'label' => false in your tags field in TaskType
+			// Replace '__name__label__' in the prototype's HTML to
+			// instead be a number based on how many items we have
+			// newForm = newForm.replace(/__name__label__/g, index);
 
-				// get the new index
-				var index = $('#widgets-counter').val(); // 1 ça va s'incrementer
+			// Replace '__name__' in the prototype's HTML to
+			// instead be a number based on how many items we have
+			newForm = newForm.replace(/__name__/g, index);
 
-				var newForm = prototype;
-				// You need this only if you didn't set 'label' => false in your tags field in TaskType
-				// Replace '__name__label__' in the prototype's HTML to
-				// instead be a number based on how many items we have
-				// newForm = newForm.replace(/__name__label__/g, index);
+			// Display the form in the page in an li, before the "Add a tag" link li
+			var $newFormLi = $('<div class="subform mt-2 d-flex"></div>').append(newForm);
+			// Add the new form at the end of the list
+			$collectionHolder.append($newFormLi);
 
-				// Replace '__name__' in the prototype's HTML to
-				// instead be a number based on how many items we have
-				newForm = newForm.replace(/__name__/g, index);
+			updateCounter();
 
-				// Display the form in the page in an li, before the "Add a tag" link li
-				var $newFormLi = $('<div class="subform"></div>').append(newForm);
-				// Add the new form at the end of the list
-				$collectionHolder.append($newFormLi);
+				// add a delete link to the new form
+			addImageFormDeleteLink($newFormLi);
+		}
+		function addImageFormDeleteLink($imageFormDiv) {
+			var $removeFormButton = $('<div><button type="button" class="btn btn-danger ml-2">X</button></div>');
+			$imageFormDiv.append($removeFormButton);
 
+			$removeFormButton.on('click', function(e) {
+				// remove the li for the tag form
+				$imageFormDiv.remove();
 				updateCounter();
+			});
+		}
 
-				 // add a delete link to the new form
-    			addImageFormDeleteLink($newFormLi);
-			}
-			function addImageFormDeleteLink($imageFormDiv) {
-				var $removeFormButton = $('<button type="button" class="btn btn-warning"><i class="fas fa-trash"></i></button>');
-				$imageFormDiv.append($removeFormButton);
+		function updateCounter() {
+		const count = +$('#widgets-counter').val() + 1;
 
-				$removeFormButton.on('click', function(e) {
-					// remove the li for the tag form
-					$imageFormDiv.remove();
-					updateCounter();
-				});
-			}
+		$('#widgets-counter').val(count);
+		}
+			function decrementeCounter() {
+		const count = +$('.subform').length - 1;
 
-            function updateCounter() {
-			const count = +$('#widgets-counter').val() + 1;
+		$('#widgets-counter').val(count);
+		}
 
-			$('#widgets-counter').val(count);
-			}
-			 function decrementeCounter() {
-			const count = +$('.subform').length - 1;
+		$('.js-delete').on('click', function() {
+			let imageId = $(this).data('id');
 
-			$('#widgets-counter').val(count);
-			}
-
-			$('.js-delete').on('click', function() {
-				let imageId = $(this).data('id');
-
-				// requete ajax
-				$.ajax({
-				type: 'POST',
-				url: '/supprime/image/ad/effacer',
-				data: {'image_id': imageId},
-				success: function(data) {
-					if (data.success) {
-						$('.js-delete').closest('#'+imageId).remove();
-					} else {
-						$('.js-delete').closest('#'+imageId).append('<div class="alert alert-danger">Cant delete image</div>');
-					}
-				},
-				error: function(data) {
-					$('.js-delete').closest('#'+imageId).append('<div class="alert alert-danger">Une erreur est survenue</div>')
+			// requete ajax
+			$.ajax({
+			type: 'POST',
+			url: '/supprime/image/ad/effacer',
+			data: {'image_id': imageId},
+			success: function(data) {
+				if (data.success) {
+					$('.js-delete').closest('#'+imageId).remove();
+				} else {
+					$('.js-delete').closest('#'+imageId).append('<div class="alert alert-danger">Cant delete image</div>');
 				}
-				});
+			},
+			error: function(data) {
+				$('.js-delete').closest('#'+imageId).append('<div class="alert alert-danger">Une erreur est survenue</div>')
+			}
 			});
 		});
-	</script>
+	});
+</script>
 {% endblock %}
