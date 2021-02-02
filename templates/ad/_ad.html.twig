@@ -17,7 +17,7 @@
 				{{ genre }}
 				de taille moyenne
 			{% endif %}
-			{% if ad.size == 3 %}
+			{% if ad.size == 2 %}
 				{{ ad.type }}
 				{{ genre }}
 				de grande taille
@@ -29,17 +29,18 @@
 			<img src="{{ asset('/uploads/' ~ ad.coverImage) }}" alt="Image de l'animal" style="height: 200px; width: 100%; display: block">
 		</a>
 		<div class="card-body">
-			<h4 class="card-title">
+			<h5 class="card-title text-center">
 				<a href="{{ url }}">
 					{{ ad.type }}
 				</a>
-			</h4>
+			</h5>
 			<p class="card-text">
 				{{ ad.introduction }}
 			</p>
 
 			{% if app.user and app.user == ad.author %}
-				<a href="{{ path('ads_edit', {'slug': ad.slug}) }}" class="btn btn-warning">Modifier mon annonce</a>
+				<a href="{{ path('ads_edit', {'slug': ad.slug}) }}" class="btn btn-warning">Modifier</a>
+				<a href="{{ path('ads_delete', {'slug': ad.slug}) }}" class="btn btn-danger" onclick="return confirm(`Êtes vous sur de vouloir supprimer l'annonce : {{ad.name}}, {{ad.age}} ans ?`)">Supprimer</a>
 			{% else %}
 				<a href="{{ url }}" class="btn btn-secondary">En savoir plus</a>
 			{% endif %}

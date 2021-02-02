@@ -2,6 +2,9 @@ div.container, div.container-fluid {
     margin-top: 20px;
 }
 
+.card-title a {
+    color: whitesmoke;
+}
 
 div.home-title {
     padding: 2em;

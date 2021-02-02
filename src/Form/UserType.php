@@ -4,12 +4,12 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class UserType extends AbstractType
 {
@@ -45,11 +45,8 @@ class UserType extends AbstractType
                     'placeholder' => "Présentez-vous en quelques mots"
                 ]
             ])
-            ->add('description', TextareaType::class, [
-                'label' => "Description",
-                'attr' => [
-                    'placeholder' => "Présentez-vous en détails"
-                ]
+            ->add('description', CKEditorType::class, [
+                'label' => "Présentez vous, votre association...",
             ]);
     }
 

@@ -39,7 +39,7 @@ class AdController extends AbstractController
      *
      * @return Response
      */
-    public function create(Request $request, EntityManagerInterface $manager, AdRepository $adRepo)
+    public function create(Request $request, EntityManagerInterface $manager)
     {
         $ad = new Ad();
 
@@ -109,7 +109,6 @@ class AdController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-//  dd($form->get('images')->getData()->toArray());
             
             foreach($form->get('images')->getData() as $key => $image){
                 if ($image->getNameFile()  === null && $image->getName() === null) {
@@ -182,6 +181,22 @@ class AdController extends AbstractController
      */
     public function delete(Ad $ad, EntityManagerInterface $manager)
     {
+        $em = $this->getDoctrine()->getManager();
+        foreach($ad->getImages() as $image) {
+            $nom = $image->getName();
+            // On supprime le fichier
+            unlink($this->getParameter('images_directory') . '/images/' . $nom);
+
+           // On supprime l'entrée de la BDD
+           
+           $image->setAnnonce(null);
+           $em->remove($image);
+        }
+
+        if ($imageCover = $ad->getCoverImage()) {
+            unlink($this->getParameter('images_directory') . '/' . $imageCover);
+        }
+
         $manager->remove($ad);
         $manager->flush();
 
@@ -223,7 +238,7 @@ class AdController extends AbstractController
     }
 
      /**
-     * Permet d'effacer l'image de profil
+     * Permet d'effacer les images
      * @Route("/supprime/image/ad/effacer", name="ad_delete_image_effacer", methods={"POST"})
      * 
      */
@@ -231,8 +246,13 @@ class AdController extends AbstractController
     {
         $imageId = $request->get('image_id');
         if ($imageId && $image = $imagesRepository->find($imageId)) {
+            
+             // On vérifie le nom de l'image
+             $nom = $image->getName();
+             // On supprime le fichier
+             unlink($this->getParameter('images_directory') . '/images/' . $nom);
+
             // On supprime l'entrée de la BDD
-    
             $em = $this->getDoctrine()->getManager();
             $image->setAnnonce(null);
             $em->remove($image);

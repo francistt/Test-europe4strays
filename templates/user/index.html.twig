@@ -15,7 +15,7 @@
 					<img src="{{ asset('/assets/img/avatar.svg') }}" class="avatar mb-3" alt="Avatar de {{user.fullName}}">
 				{% endif %}
 				<br>
-				<span class="badge badge-info">{{user.ads | length}}
+				<span class="badge badge-secondary">{{user.ads | length}}
 					annonces</span>
 			</div>
 			<div class="col-9">
@@ -32,7 +32,7 @@
 		{{user.description | raw}}
 		<br/>
 		<br/>
-		<a href="mailto:{{user.email}}" class="btn btn-outline-primary btn-sm">Email :
+		<a href="mailto:{{user.email}}" class="btn btn-outline-secondary btn-sm">Email :
 			{{user.email}}</a>
 		{% if user.phone != null %}
 			<a href="tel:{{user.phone}}" class="btn btn-outline-primary btn-sm">Téléphone :

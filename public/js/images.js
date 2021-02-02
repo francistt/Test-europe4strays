@@ -1,5 +1,10 @@
 $(document).ready(function() {
 
+    $(document).on('change', '.custom-file-input', function () {
+        let fileName = $(this).val().replace(/\\/g, '/').replace(/.*\//, '');
+        $(this).parent('.custom-file').find('.custom-file-label').text(fileName);
+    });
+
     $('body').on('click', '.file-select-button', function(){
         $(this).closest('.upload-image-strip').find('input').click();
     });

@@ -4,7 +4,10 @@ namespace App\Form;
 
 use App\Entity\Ad;
 use App\Form\ImagesType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -13,8 +16,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 
 class AdType extends AbstractType
 {
@@ -67,11 +68,8 @@ class AdType extends AbstractType
                     'placeholder' => "Donnez une description globale de l'animal"
                 ]
             ])
-            ->add('content', TextareaType::class, [
+            ->add('content', CKEditorType::class, [
                 'label' => 'Description détaillée :',
-                'attr' => [
-                    'placeholder' => "Décrivez le en détail"
-                ]
             ])
 
             ->add('images', CollectionType::class, [
