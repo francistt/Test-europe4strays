@@ -18,11 +18,9 @@ class WelcomePageCrudController extends AbstractCrudController
         return WelcomePage::class;
     }
 
-
     public function configureFields(string $pageName): iterable
     {
         return [
-
             TextField::new('title', 'Titre du header'),
             TextareaField::new('content', 'Contenu du header'),
             TextareaField::new('btnTitle', 'Titre du bouton'),

@@ -39,7 +39,7 @@ class AdController extends AbstractController
      *
      * @return Response
      */
-    public function create(Request $request, EntityManagerInterface $manager)
+    public function create(Request $request, EntityManagerInterface $manager, AdRepository $adRepo)
     {
         $ad = new Ad();
 
@@ -72,12 +72,12 @@ class AdController extends AbstractController
             $manager->flush();
             
             // On envoi un email à l'administrateur à chaque nouvelle annonce
-            // $content = $this->renderview('contact/lastAd.html.twig', [
-            //     'ad' => $ad,
-            //     'ads' => $adRepo->findLastAds(1)
-            // ]);
-            // $mail = new Mail();
-            // $mail->send('europe4strays@nevertoolate.fr', 'Europe4strays', 'Une nouvelle annonce a été publié', $content);
+            $content = $this->renderview('contact/lastAd.html.twig', [
+                'ad' => $ad,
+                'ads' => $adRepo->findLastAds(1)
+            ]);
+            $mail = new Mail();
+            $mail->send('europe4strays@nevertoolate.fr', 'Europe4strays', 'Une nouvelle annonce a été publié', $content);
 
             $this->addFlash(
                 'success',

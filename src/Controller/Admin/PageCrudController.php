@@ -19,7 +19,6 @@ class PageCrudController extends AbstractCrudController
         return Page::class;
     }
 
-
     public function configureFields(string $pageName): iterable
     {
         return [
